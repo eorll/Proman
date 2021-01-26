@@ -1,8 +1,23 @@
+
+
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
 
 
 $body-bg: $indigo-900;
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $yellow-100,
+  "light":      $light,
+  "dark":       $dark,
+  "pink": #ff00a0
+);
+
+
 
 
 
