@@ -16,12 +16,15 @@
     <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     {% block head %}{% endblock %}
 </head>
-<body>
+<body >
 <div class="container">
+    <
     {% block header %}
         {% include 'header.html' %}
     {% endblock %}
-    {% block content %}{% endblock %}
+    {% block content %}
+
+    {% endblock %}
 </div>
 </body>
 </html>

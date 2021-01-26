@@ -3,22 +3,26 @@
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
 
-$list-group-hover-bg: #5448db;
-$list-group-bg: $info;
-$body-bg: $dark;
-$body-color: $light;
+$list-group-hover-bg: #c8d8aa;
+$list-group-bg: $gray-600;
+$body-bg: #3d383c;
+$body-color: #ffffff;
+
+
+
 
 
 
 $theme-colors: (
-  "primary": #3c3f41,
-  "secondary": #2b2b2c,
-  "success":    $success,
+  "primary": #6a7274,
+  "secondary": #505053,
+  "success":    #95e208,
   "info":       $info,
   "warning":    $warning,
   "danger":     $danger,
   "light":      $light,
-  "dark":       #5448db
+  "dark":       $dark,
+  "brown":      #655b41
 );
 
 
