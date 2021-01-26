@@ -1,11 +1,11 @@
-.list-group{
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
 
-}
-.list-group-item
-{
 
-}
+$body-bg: $indigo-900;
+
 
 
 
 @import "../node_modules/bootstrap/scss/bootstrap";
+@import "../node_modules/bootstrap/scss/mixins";
