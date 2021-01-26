@@ -3,18 +3,19 @@
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
 
+$list-group-hover-bg: #5448db;
+$list-group-bg: $info;
 
-$body-bg: $indigo-900;
+
 $theme-colors: (
-  "primary":    $primary,
-  "secondary":  $secondary,
+  "primary": #3c3f41,
+  "secondary": #2b2b2c,
   "success":    $success,
   "info":       $info,
   "warning":    $warning,
-  "danger":     $yellow-100,
+  "danger":     $danger,
   "light":      $light,
-  "dark":       $dark,
-  "pink": #ff00a0
+  "dark":       #5448db
 );
 
 
@@ -24,3 +25,9 @@ $theme-colors: (
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/root";
+@import "../node_modules/bootstrap/scss/reboot";
+@import "../node_modules/bootstrap/scss/type";
+@import "../node_modules/bootstrap/scss/images";
+@import "../node_modules/bootstrap/scss/containers";
+@import "../node_modules/bootstrap/scss/grid";
