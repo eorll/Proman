@@ -1,5 +1,3 @@
-
-
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
 
@@ -9,20 +7,40 @@ $body-bg: #3d383c;
 $body-color: #ffffff;
 
 
-
 $theme-colors: (
-  "primary": #6a7274,
-  "secondary": #505053,
-  "success":    #95e208,
-  "info":       $info,
-  "warning":    $warning,
-  "danger":     $danger,
-  "light":      $light,
-  "dark":       $dark,
-  "brown":      #655b41
+        "primary": #6a7274,
+        "secondary": #505053,
+        "success": #95e208,
+        "info": $info,
+        "warning": $warning,
+        "danger": $danger,
+        "light": $light,
+        "dark": $dark,
+        "brown": #655b41
 );
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+  background: $gray-800;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 
 
 @import "../node_modules/bootstrap/scss/bootstrap";
