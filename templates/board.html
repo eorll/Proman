@@ -10,7 +10,8 @@
             <div class="row">
                 <div class="card-header">
                     <h5 class="d-inline me-auto">Your columns:</h5>
-                    <a href="#" class="btn btn-brown border-success float-end d-inline">New column</a>
+                    <a href="#" class="btn btn-brown border-success float-end d-inline"
+                       data-bs-toggle="modal" data-bs-target="#exampleModalBoard" draggable="false">New column</a>
                 </div>
             </div>
             <div class="row flex-nowrap overflow-auto me-0">
@@ -20,6 +21,30 @@
                 {% for status in statuses %}
                     {% include 'column.html' %}
                 {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalBoard" tabindex="-1" aria-labelledby="exampleModalBoardLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalBoardLabel text-dark">Column Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label text-dark">TITLE:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary">Change</button>
             </div>
         </div>
     </div>
