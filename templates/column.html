@@ -3,5 +3,10 @@
     <div class="card-body">
         <h5 class="card-title"> {{ status }} </h5>
         <hr>
+        {% for card in cards %}
+            {% if card.status_id == status %}
+                {% include 'card.html' %}
+            {% endif %}
+        {% endfor %}
     </div>
 </div>

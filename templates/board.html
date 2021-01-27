@@ -10,12 +10,12 @@
             <div class="row">
                 <div class="card-header">
                     <h5 class="d-inline me-auto">Your columns:</h5>
-                    <a href="#" class="btn btn-brown border-success float-end d-inline" draggable="true">New column</a>
+                    <a href="#" class="btn btn-brown border-success float-end d-inline">New column</a>
                 </div>
             </div>
             <div class="row flex-nowrap overflow-auto me-0">
                 {% set statuses = json.loads(get_statuses().data) %}
-                {% set cards = json.loads(get_statuses().data) %}
+                {% set cards = json.loads(get_cards_for_board(board.id).data) %}
 
                 {% for status in statuses %}
                     {% include 'column.html' %}
