@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, render_template, url_for
 from util import json_response
 
@@ -11,9 +13,14 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    boards = get_boards().data
+    boards = json.loads(get_boards().data)
+    columns = json.loads(get_cards_for_board(1).data)
+    statuses = json.loads(get_statuses().data)
     print(boards)
-    return render_template('index.html')
+    print(columns)
+    print(statuses)
+
+    return render_template('index.html', boards=boards)
 
 
 @app.route("/get-boards")
@@ -33,6 +40,20 @@ def get_cards_for_board(board_id: int):
     :param board_id: id of the parent board
     """
     return data_handler.get_cards_for_board(board_id)
+
+
+@app.route("/get-statuses/")
+@json_response
+def get_statuses():
+    """
+    All the statuses
+    """
+    return data_handler.get_card_statuses()
+
+
+app.jinja_env.globals.update(get_cards_for_board=get_cards_for_board,
+                             get_statuses=get_statuses,
+                             json=json)
 
 
 def main():

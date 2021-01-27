@@ -2,9 +2,9 @@
 
 {% block content %}
     <div class="row">
-        {% include 'board.html' %}
-        {% include 'board.html' %}
-        {% include 'board.html' %}
+        {% for board in boards %}
+            {% include 'board.html' %}
+        {% endfor %}
     </div>
     <hr>
 

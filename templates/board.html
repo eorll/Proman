@@ -1,10 +1,26 @@
-<div class="card bg-dark border-success my-3">
+<div class="card bg-dark border-success my-3" draggable="true">
     <div class="card-header">
-        Featured
+        <h4 class="d-inline me-auto">{{ board.title }} - id: {{ board.id }}</h4>
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split float-end d-inline"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        </button>
     </div>
     <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-brown border-success">Go somewhere</a>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="card-header">
+                    <h5 class="d-inline me-auto">Your columns:</h5>
+                    <a href="#" class="btn btn-brown border-success float-end d-inline" draggable="true">New column</a>
+                </div>
+            </div>
+            <div class="row flex-nowrap overflow-auto me-0">
+                {% set statuses = json.loads(get_statuses().data) %}
+                {% set cards = json.loads(get_statuses().data) %}
+
+                {% for status in statuses %}
+                    {% include 'column.html' %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
