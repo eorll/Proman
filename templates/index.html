@@ -1,6 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+    <div class="add_new_board" id="add_new_board">
+        {% include 'add_board.html' %}
+    </div>
     <div class="row">
         {% for board in boards %}
             {% include 'board.html' %}
