@@ -4744,7 +4744,7 @@ textarea.form-control-lg {
   z-index: 1;
   color: #495057;
   text-decoration: none;
-  background-color: #c8d8aa;
+  background-color: #bababb;
 }
 .list-group-item-action:active {
   color: #212529;
@@ -4756,7 +4756,7 @@ textarea.form-control-lg {
   display: block;
   padding: 0.5rem 1rem;
   text-decoration: none;
-  background-color: #6c757d;
+  background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.125);
 }
 .list-group-item:first-child {
