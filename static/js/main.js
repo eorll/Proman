@@ -21,7 +21,8 @@ $(newColBtn).click(function (event){
     let addColumnBtn = inputContainer.children("button:first");
 
     addColumnBtn.click(function (event){
-        columnsContainer.append(`
+        if (addColumnInput.val()){
+            columnsContainer.append(`
             <div class="card m-3 d-inline-block flex-nowrap bg-dark text-light border-light" style="width: 18rem" draggable="true">
                 <div class="card-body">
                     <button class="btn btn-dark d-block w-100 my-3" draggable="false">` + addColumnInput.val() + `</button>
@@ -29,6 +30,7 @@ $(newColBtn).click(function (event){
                 </div>                   
             </div>`);
         addColumnInput.val('')
+        }
     });
 });
 
