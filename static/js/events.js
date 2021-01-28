@@ -15,7 +15,13 @@ function onDblClick(e) {
 
     let input = $('<input>');
     input.attr('type', 'text');
-    input.addClass('input d-inline-block bg-transparent text-light border-0 my-0 text-center w-100');
+
+    if(!$(e.target).hasClass('project-board-title')) {
+        input.addClass('input d-inline-block bg-transparent text-light border-0 my-0 text-center w-100');
+    } else {
+        input.addClass('input d-inline-block bg-transparent text-light border-0 my-0');
+    }
+
     input.val(e.target.innerText);
 
     $(e.target).addClass('d-none');
