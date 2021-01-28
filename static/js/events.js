@@ -4,18 +4,18 @@ function initEvents() {
 }
 
 function initEditingColumnName() {
-    $('#column_name').on('dblclick', onDblClick);
+    $('.column_name').on('dblclick', onDblClick);
 }
 
 function initEditingBoardName() {
-    $('#column_name').on('dblclick', onDblClick);
+    $('.project-board-title').on('dblclick', onDblClick);
 }
 
 function onDblClick(e) {
 
     let input = $('<input>');
     input.attr('type', 'text');
-    input.addClass('input d-inline-block bg-transparent text-light border-0');
+    input.addClass('input d-inline-block bg-transparent text-light border-0 my-0 text-center w-100');
     input.val(e.target.innerText);
 
     $(e.target).addClass('d-none');
