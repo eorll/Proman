@@ -40,5 +40,4 @@ export let dom = {
         // it adds necessary event listeners also
     },
     // here comes more features
-  
 };
