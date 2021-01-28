@@ -1,5 +1,10 @@
 function initEvents() {
     initEditingBoardName();
+    initEditingColumnName();
+}
+
+function initEditingColumnName() {
+    $('#column_name').on('dblclick', onDblClick);
 }
 
 function initEditingBoardName() {
