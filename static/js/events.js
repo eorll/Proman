@@ -1,5 +1,10 @@
 function initEvents() {
     initEditingBoardName();
+    initEditingColumnName();
+}
+
+function initEditingColumnName() {
+    $('.column_name').on('dblclick', onDblClick);
 }
 
 function initEditingBoardName() {
@@ -10,7 +15,7 @@ function onDblClick(e) {
 
     let input = $('<input>');
     input.attr('type', 'text');
-    input.addClass('input d-inline-block bg-transparent text-light border-0');
+    input.addClass('input d-inline-block bg-transparent text-light border-0 my-0 text-center w-100');
     input.val(e.target.innerText);
 
     $(e.target).addClass('d-none');
@@ -20,7 +25,7 @@ function onDblClick(e) {
 
     input.on('keypress', function (e) {
         // If you pressed enter
-        if (e.which == 13) {
+        if (e.which === 13) {
             renameBoardNode($(e.target));
         }
     });
@@ -28,7 +33,7 @@ function onDblClick(e) {
         renameBoardNode($(e.target));
     });
     $(document).on('keydown', function (e) {
-        if (e.which == 27) {
+        if (e.which === 27) {
             displayTitle($(e.target));
         }
     });

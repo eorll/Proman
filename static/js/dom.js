@@ -1,8 +1,7 @@
 // It uses data_handler.js to visualize elements
-// import {dataHandler} from "./data_handler.js";
-// import {initEvents} from "./events.js";
+import { dataHandler } from "./data_handler.js";
 
-let dom = {
+export let dom = {
     init: function () {
         // This function should run once, when the page is loaded.
         initEvents();
@@ -41,7 +40,5 @@ let dom = {
         // shows the cards of a board
         // it adds necessary event listeners also
     },
-
     // here comes more features
-
 };
