@@ -49,3 +49,17 @@ def get_boards(force=False):
 
 def get_cards(force=False):
     return _get_data('cards', CARDS_FILE, force)
+
+
+def append_to_csv(file_name, record):
+    """
+    Append single record to file.
+    :param file_name: name of file -> str
+    :param record: data -> list
+    :return: None
+    """
+
+    with open(file_name, mode='a+') as csv_file:
+        csv_writer = csv.writer(csv_file, delimiter=',', quotechar='"')
+        csv_writer.writerow(record)
+
