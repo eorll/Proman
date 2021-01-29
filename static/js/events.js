@@ -1,6 +1,7 @@
 function initEvents() {
     initEditingBoardName();
     initEditingColumnName();
+    initAddColumn();
 }
 
 function initEditingColumnName() {
@@ -9,6 +10,10 @@ function initEditingColumnName() {
 
 function initEditingBoardName() {
     $('.project-board-title').on('dblclick', onDblClick);
+}
+
+function initAddColumn() {
+    $(".new-col").click(addColumn)
 }
 
 function onDblClick(e) {
@@ -55,3 +60,55 @@ function displayTitle(input$) {
     input$.prev().removeClass('d-none');
     input$.remove();
 }
+
+
+function addColumn (e){
+    let columnsContainer = $(this).parent().parent().siblings(".flex-nowrap:first");
+
+    let colDiv = $("<div>", {
+                class: "card m-3 d-inline-block flex-nowrap bg-dark text-light border-light",
+                style: "width: 20%; min-width: 12rem;",
+                id: $(e.target).attr("id") + "tmp",
+                draggable: "true"
+
+            })
+    let innerDiv = $("<div>",{
+                class: "card-body text-center"
+            })
+    let input = $("<input>", {
+                type: "text",
+                class: "title-input",
+                id: "inputCont"
+            })
+    let column = colDiv.append(
+        innerDiv.append(input))
+        .append($("<hr>"))
+
+
+    if ($(e.target).html() === "New column"){
+        columnsContainer.prepend(column);
+        $(e.target).html("Cancel");
+        input.select();
+    } else {
+        $("#" + $(e.target).attr("id") + "tmp").remove();
+        $(e.target).html("New column");
+    }
+
+    let btn = $(e.target);
+
+    $(".title-input").keypress(function(e) {
+        if (e.keyCode === 13){
+            let titleVal = $(e.target).val();
+            let title = $("<h5>", {
+                type: "text",
+                class: "column_name btn-dark d-block w-100 my-0 text-center",
+                draggable: "false",
+                html: titleVal
+            });
+            if (title.length > 0) {
+                $(e.target).replaceWith(title)
+                btn.html("New column")
+            }
+        }
+    });
+};
