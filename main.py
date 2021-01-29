@@ -14,11 +14,6 @@ def index():
     This is a one-pager which shows all the boards and cards
     """
     boards = json.loads(get_boards().data)
-    columns = json.loads(get_cards_for_board(1).data)
-    statuses = json.loads(get_statuses().data)
-    print(boards)
-    print(columns)
-    print(statuses)
 
     return render_template('index.html', boards=boards)
 
