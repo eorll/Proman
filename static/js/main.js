@@ -9,29 +9,41 @@ function init() {
 
 }
 
-let newColBtn = $(".card>.card-body>.container-fluid>.row>.card-header>.btn-brown")
+let newColBtn = $(".new-col")
 
 $(newColBtn).click(function (event){
-    let inputContainer = ($(this).siblings("div:first"));
-    inputContainer.toggleClass("d-none");
-
     let columnsContainer = $(this).parent().parent().siblings(".flex-nowrap:first");
+    let newCardContainer = $("#inputCont")
 
-    let addColumnInput = inputContainer.children("input:first");
-    let addColumnBtn = inputContainer.children("button:first");
+    if (newCardContainer.length === 0 & $(this).html() === "New column"){
+            columnsContainer.prepend(`
+                <div class="card m-3 d-inline-block flex-nowrap bg-dark text-light border-light" id="tmpID"
+                style="width: 18rem" draggable="true">
+                    <div class="card-body">
+                        <button class="btn btn-dark d-block w-100 my-3" draggable="false">
+                            <input type="text" class="title-input" id="columnNameInput inputCont">
+                         </button>
+                        <hr>
+                    </div>                   
+                </div>`);
+            $(this).html("Cancel")
+    } else {
+        $("#tmpID").remove()
+        $(this).html("New column")
+    }
 
-    addColumnBtn.click(function (event){
-        if (addColumnInput.val()){
-            columnsContainer.append(`
-            <div class="card m-3 d-inline-block flex-nowrap bg-dark text-light border-light" style="width: 18rem" draggable="true">
-                <div class="card-body">
-                    <button class="btn btn-dark d-block w-100 my-3" draggable="false">` + addColumnInput.val() + `</button>
-                    <hr>
-                </div>                   
-            </div>`);
-        addColumnInput.val('')
+    let addColumnInput = $(".title-input")
+    let btn = $(this)
+
+    addColumnInput.keypress(function(event) {
+        if (event.keyCode == 13){
+            let title = $(this).val()
+            if (title.length > 0) {
+                $(this).replaceWith(title)
+                btn.html("New column")
+            }
         }
-    });
+    })
 });
 
 init();
