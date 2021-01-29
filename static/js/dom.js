@@ -1,10 +1,13 @@
 // It uses data_handler.js to visualize elements
 import { dataHandler } from "./data_handler.js";
 
+
 export let dom = {
+
     init: function () {
         // This function should run once, when the page is loaded.
         initEvents();
+
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
