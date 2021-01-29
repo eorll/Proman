@@ -5210,7 +5210,7 @@ textarea.form-control-lg {
   pointer-events: auto;
   background-color: #505053;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid #95e208;
   border-radius: 0.3rem;
   outline: 0;
 }

@@ -1,6 +1,6 @@
-<div class="card bg-dark border-success my-3" draggable="true">
+<div class="card bg-dark border-success my-3 project-boards" draggable="true" id="board{{ board.id }}">
     <div class="card-header">
-        <h4 class="d-inline me-auto">{{ board.title }} - id: {{ board.id }}</h4>
+        <h4 class="d-inline me-auto project-board-title">{{ board.title }} - id: {{ board.id }}</h4>
         <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split float-end d-inline"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         </button>
@@ -31,14 +31,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalBoardLabel text-dark">Column Title</h5>
+                <h5 class="modal-title" id="exampleModalBoardLabel ">Column Title</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label text-dark">TITLE:</label>
-                        <input type="text" class="form-control" id="recipient-name">
+                        <label for="recipient-board-title{{ board.id }}" class="col-form-label ">TITLE:</label>
+                        <input type="text" class="form-control" id="recipient-board-title{{ board.id }}">
                     </div>
                 </form>
             </div>
