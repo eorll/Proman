@@ -24,11 +24,9 @@ export let dataHandler = {
             credentials: 'same-origin',
             body: data
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
+            .then(result => {
+                console.log('Success:', result.status);
             })
-            // .then(json_response => callback(json_response))
             .catch((error) => {
                 console.error('Error:', error);
             });
