@@ -1,16 +1,10 @@
-
 <div class="card m-3 d-inline-block flex-nowrap bg-dark text-light border-light" style="width: 20%; min-width: 12rem;"
-            draggable="true">
+     draggable="true" id="column">
     <div class="card-body">
         <h5 type="text" class="column_name btn-dark d-block w-100 my-0 text-center"
-                draggable="false" >{{ status }}</h5>
-{#        <h5 class="card-title"></h5>#}
+            draggable="false"></h5>
         <hr>
-        {% for card in cards %}
-            {% if card.status_id == status %}
                 {% include 'card.html' %}
-            {% endif %}
-        {% endfor %}
     </div>
 </div>
 
