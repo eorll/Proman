@@ -55,6 +55,8 @@ def add_board():
     if request.method == 'POST':
         data = dict(request.form)
         data_handler.add_new_board(data['title'])
+    else:
+        return print('Error')
 
     return print(data)
 

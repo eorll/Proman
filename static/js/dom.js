@@ -56,7 +56,15 @@ export let dom = {
         let btn = document.getElementById('add-board-btn');
         btn.addEventListener('click', event => {
             let boardForm = new FormData(document.getElementById('new-board-form'))
-            dataHandler.createNewBoard(boardForm);
+            dataHandler.createNewBoard(boardForm, function(board) {
+                dom.loadBoard(board)
+            });
+            $(`#addBoard`).modal('hide');
         })
-    }
+    },
+    loadBoard: function (board) {
+        let boardBox = document.getElementById('row');
+        let newBoard = element.board(board);
+        boardBox.insertBefore(newBoard, boardBox.childNodes[0]);
+    },
 };
