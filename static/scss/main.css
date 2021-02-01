@@ -17,6 +17,11 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555; }
 
+.dragging {
+  transform: scale(0.7);
+  transition: all 0.01s ease;
+  opacity: 50%; }
+
 /*!
  * Bootstrap v5.0.0-beta1 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors

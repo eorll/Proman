@@ -41,6 +41,11 @@ $theme-colors: (
   background: #555;
 }
 
+.dragging {
+  transform: scale(0.7);
+  transition: all 0.01s ease;
+  opacity: 50%;
+}
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "../node_modules/bootstrap/scss/mixins";
