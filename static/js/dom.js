@@ -35,7 +35,7 @@ export let dom = {
     },
     showCards: function (cards, boardId) {
         for (let card of cards) {
-            let cardBox = $(`#card-box-${card.status_id}-${boardId}`).children('.card-container');
+            let cardBox = $(`#card-box-${card.status_id.split(" ").join("")}-${boardId}`);
             let newCard = element.getCard(card);
             events.onDragCard(newCard);
             cardBox.append(newCard);

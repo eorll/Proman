@@ -37,11 +37,11 @@ export let element = {
             draggable: 'true'
         });
         newColumn.html(`
-            <div class="card-body" id="card-box-${status}-${boardId}">
+            <div class="card-body">
                 <h5 type="text" class="project-status-title column_name btn-dark d-block w-100 my-0 text-center"
                     draggable="false">${status}</h5>
                 <hr>
-                <div class="card-container"></div>                
+                <div class="card-container" id="card-box-${status.split(" ").join("")}-${boardId}"></div>                
                 </div>
             </div>
         `);
