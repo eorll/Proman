@@ -74,7 +74,6 @@ export let dataHandler = {
         let boardData = {'title': boardTitle.get('title')};
         let id = {id : '999'};
         let board = Object.assign(boardData, id);
-        console.log(board)
         dom.loadBoard(board);
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
