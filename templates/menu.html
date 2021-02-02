@@ -1,9 +1,9 @@
 <div class="d-flex align-items-start position-fixed end-0 top-50 translate-middle-y ui-front" style="z-index: 1050">
     <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <button type="button" class="btn btn-brown border-success my-3" id="v-pills-home-tab"
-                href="#" role="tab" data-bs-toggle="tooltip" data-bs-placement="left" title="New board"
+                href="#" role="tab" title="New board"
                 aria-controls="v-pills-home" aria-selected="true"
-                style="transform: scale(1.3)">
+                style="transform: scale(1.3)" data-bs-toggle="modal" data-bs-target="#addBoard">
             <img src="/static/icons/plus.svg" style="filter: invert(); transform: scale(1.4);"></button>
         <button type="button" class="btn btn-brown border-success my-3" id="v-pills-profile-tab"
                 href="#" role="tab" data-bs-toggle="tooltip" data-bs-placement="left" title="Refresh data"
@@ -20,5 +20,26 @@
                 aria-controls="v-pills-messages" aria-selected="false"
                 style="transform: scale(1.3)">
             <img src="/static/icons/clipboard.svg" style="filter: invert(); transform: scale(1.1)"></button>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addBoard" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                 <form id="new-board-form">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Title:</label>
+                        <input type="text" class="form-control" id="recipient-name" name="title" value="New board">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="add-board-btn">Add</button>
+            </div>
+        </div>
     </div>
 </div>

@@ -6,12 +6,12 @@ import * as events from "./events.js";
 export let dom = {
     init: function () {
         // This function should run once, when the page is loaded.
+        this.loadBoards();
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
-
         });
     },
     showBoards: function (boards) {
@@ -22,6 +22,7 @@ export let dom = {
             let newBoard = element.getBoard(board);
             boardBox.append(newBoard);
             events.initEditingBoardName(newBoard);
+            events.initAddColumnBtn(newBoard);
             dom.loadCards(`${board.id}`);
         }
     },
@@ -55,7 +56,7 @@ export let dom = {
             columnBox.append(newColumn);
         }
     },
-    addBoardBtn: function () {
+    initEventAddBoardBtn: function () {
         let btn = document.getElementById('add-board-btn');
         btn.addEventListener('click', events.newColumn);
     },

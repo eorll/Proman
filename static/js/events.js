@@ -1,8 +1,7 @@
 import {dataHandler} from "./data_handler.js";
 import {dom} from "/static/js/dom.js";
 
-function initEvents() {
-    initAddColumn();
+export function initEvents() {
     addCard();
 }
 
@@ -14,8 +13,9 @@ export function initEditingBoardName(obj$) {
     obj$.children('.card-header').children('.project-board-title').on('dblclick', onDblClick);
 }
 
-function initAddColumn() {
-    $(".new-col").click(addColumn)
+export function initAddColumnBtn(board$) {
+    board$.children('.card-body').children('.container-fluid').children('.row')
+        .children('.card-header').children('a').click(addColumn);
 }
 
 export function onDragCard(card$) {
@@ -171,9 +171,9 @@ function onDropBeforeCard(e) {
 }
 
 export function newColumn(e) {
-    let boardForm = new FormData(document.getElementById('new-board-form'))
+    let boardForm = new FormData(document.getElementById('new-board-form'));
     dataHandler.createNewBoard(boardForm, function (board) {
-        dom.loadBoard(board)
+        dom.loadBoard(board);
     });
     $(`#addBoard`).modal('hide');
 }
@@ -181,7 +181,7 @@ export function newColumn(e) {
 
 function addCard() {
     $(".add_card_button").on("click", function (e) {
-        console.log("event on")
+        console.log("event on");
         let span = $("<Span>").attr({class:"card_title d-inline me-auto"});
         let button = $("<button>" ).attr({type:'button', class:'addedCard btn btn-primary d-block w-100 my-3', draggable:'true'});
         span.text("New Card");
