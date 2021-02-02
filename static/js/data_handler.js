@@ -29,7 +29,7 @@ export let dataHandler = {
             .then(result => {
                 console.log('Success:', result.status);
             })
-            .then(result => callback(result))
+            // .then(result => callback(result))
             .catch((error) => {
                 console.error('Error:', error);
             });
@@ -70,13 +70,11 @@ export let dataHandler = {
     },
     createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
-        this._api_post('/add-board', boardTitle, (result) => {
-            let boardData = {'title': boardTitle.get('title')};
-            let id = {id : '999'};
-            let board = Object.assign(boardData, id);
-            dom.loadBoard(board);
-            }
-        );
+        this._api_post('/add-board', boardTitle);
+        let boardData = {'title': boardTitle.get('title')};
+        let id = {id : '999'};
+        let board = Object.assign(boardData, id);
+        dom.loadBoard(board);
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
