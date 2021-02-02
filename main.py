@@ -1,9 +1,9 @@
-import json, data_handler
+import data_handler
+import json
 
-from flask import Flask, render_template, url_for, redirect, request
+from flask import Flask, render_template, url_for, request
+
 from util import json_response
-
-
 
 app = Flask(__name__)
 

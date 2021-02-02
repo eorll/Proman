@@ -1,4 +1,5 @@
-import { dom } from "./dom.js";
+import {dom} from "./dom.js";
+import {initEvents} from "./events.js";
 
 // This function is to initialize the application
 function init() {

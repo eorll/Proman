@@ -1,48 +1,34 @@
-function initEvents() {
-    initEditingBoardName();
-    initEditingColumnName();
+import {dataHandler} from "./data_handler.js";
+import {dom} from "/static/js/dom.js";
+
+export function initEvents() {
     initAddColumn();
-    initDragCards();
-
-    setInterval(function () {
-
-    });
 }
 
-function initEditingColumnName() {
-    $('.column_name').on('dblclick', onDblClick);
+export function initEditingColumnName(obj$) {
+    obj$.children('.card-body').children('.project-status-title').on('dblclick', onDblClick);
 }
 
-function initEditingBoardName() {
-    $('.project-board-title').on('dblclick', onDblClick);
+export function initEditingBoardName(obj$) {
+    obj$.children('.card-header').children('.project-board-title').on('dblclick', onDblClick);
 }
 
 function initAddColumn() {
     $(".new-col").click(addColumn)
 }
 
-function initDragCards() {
-    let columns = document.querySelectorAll('.project-column');
+export function onDragCard(card$) {
+    card$.get(0).addEventListener('dragstart', onDragStart);
+    card$.get(0).addEventListener('dragend', onDragEnd);
+    card$.get(0).addEventListener('drag', onDrag);
 
-    for (let col of columns) {
-        col.addEventListener('drop', onDropInColumn);
-        col.addEventListener('dragover', allowDrop);
-        // col.addEventListener('dragover', selectColumn);
-        // col.addEventListener('dragleave', deselectColumn);
-    }
+    card$.get(0).addEventListener('dragover', allowDrop);
+    card$.get(0).addEventListener('drop', onDropBeforeCard);
+}
 
-    let cards = document.querySelectorAll('.project-card');
-
-    for (let card of cards) {
-        card.addEventListener('dragstart', onDragStart);
-        card.addEventListener('dragend', onDragEnd);
-        card.addEventListener('drag', onDrag);
-
-        card.addEventListener('dragover', allowDrop);
-        card.addEventListener('drop', onDropBeforeCard);
-        // card.addEventListener('dragover', onCardDragOver);
-        // card.addEventListener('dragleave', onCardDragLeave);
-    }
+export function onDropCardOverColumn(col$) {
+    col$.get(0).addEventListener('drop', onDropInColumn);
+    col$.get(0).addEventListener('dragover', allowDrop);
 }
 
 function onDblClick(e) {
@@ -50,9 +36,9 @@ function onDblClick(e) {
     let input = $('<input>');
     input.attr('type', 'text');
 
-    if (!$(e.target).hasClass('project-board-title')) {
+    if ($(e.target).hasClass('project-status-title')) {
         input.addClass('input d-inline-block bg-transparent text-light border-0 my-0 text-center w-100');
-    } else {
+    } else if ($(e.target).hasClass('project-board-title')) {
         input.addClass('input d-inline-block bg-transparent text-light border-0 my-0');
     }
 
@@ -148,6 +134,7 @@ function allowDrop(e) {
 
 function onDragStart(e) {
     console.log('Drag start.');
+    console.log(e.currentTarget);
     e.currentTarget.classList.add('dragging');
     e.dataTransfer.setData("text", e.currentTarget.id);
 }
@@ -164,12 +151,12 @@ function onDragEnd(e) {
 
 function onDropInColumn(e) {
     console.log('Drop in column.');
-    console.log($(e.currentTarget).children('.card-container'));
+    console.log($(e.currentTarget).children('.card-body').children('.card-container'));
 
     let id = e.dataTransfer.getData("text");
     let draggedElement = $(`#${id}`);
     console.log(draggedElement);
-    $(e.currentTarget).children('.card-container').append(draggedElement);
+    $(e.currentTarget).children('.card-body').children('.card-container').append(draggedElement);
 }
 
 function onDropBeforeCard(e) {
@@ -183,44 +170,10 @@ function onDropBeforeCard(e) {
     $(e.currentTarget).before(draggedElement);
 }
 
-function onCardDragOver(e) {
-    e.stopPropagation();
-    console.log('Card drag over.');
-    // Remove previous placeholder if exist
-    // $('.project-card-placeholder').remove();
-    $(e.currentTarget).parent('.card-container').addClass('bg-brown');
-    // $(e.currentTarget).parent('.card-container').addClass('border border-1 border-success');
-
-    // Add new placeholder in new position
-    // let placeholder = $('<hr>');
-    // placeholder.addClass('d-block w-100 my-3 project-card-placeholder text-success my-1');
-    // placeholder.css('border: 2 solid');
-    // console.log($(e.currentTarget));
-    // $(e.currentTarget).before(placeholder);
-}
-
-function onCardDragLeave() {
-    console.log('Card drag leave.');
-    $(e.currentTarget).parent('.card-container').removeClass('bg-brown');
-}
-
-function selectColumn(e) {
-    console.log('Select column.');
-    // $(e.currentTarget).children('.card-container').addClass('border border-1 border-success');
-    $(e.currentTarget).addClass('bg-brown');
-    // Remove previous placeholder if exist
-    // $('.project-card-placeholder').remove();
-
-    // Add new placeholder in new position
-    // let placeholder = $('<hr>');
-    // placeholder.addClass('d-block w-100 my-3 project-card-placeholder text-success my-1');
-    // placeholder.css('border: 2 solid');
-    // $(e.currentTarget).children('.card-container').append(placeholder);
-}
-
-function deselectColumn(e) {
-    console.log('Deselect column.');
-    $(e.currentTarget).removeClass('bg-brown');
-    // $(e.currentTarget).children('.card-container').removeClass('border border-1 border-success');
-    // $('.project-card-placeholder').remove();
+export function newColumn(e) {
+    let boardForm = new FormData(document.getElementById('new-board-form'))
+    dataHandler.createNewBoard(boardForm, function (board) {
+        dom.loadBoard(board)
+    });
+    $(`#addBoard`).modal('hide');
 }
