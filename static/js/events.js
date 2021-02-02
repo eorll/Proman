@@ -3,10 +3,8 @@ function initEvents() {
     initEditingColumnName();
     initAddColumn();
     initDragCards();
+    addCard();
 
-    setInterval(function () {
-
-    });
 }
 
 function initEditingColumnName() {
@@ -223,4 +221,17 @@ function deselectColumn(e) {
     $(e.currentTarget).removeClass('bg-brown');
     // $(e.currentTarget).children('.card-container').removeClass('border border-1 border-success');
     // $('.project-card-placeholder').remove();
+}
+
+
+function addCard() {
+    $(".add_card_button").on("click", function (e) {
+        console.log("event on")
+        let span = $("<Span>").attr({class:"card_title d-inline me-auto"});
+        let button = $("<button>" ).attr({type:'button', class:'addedCard btn btn-primary d-block w-100 my-3', draggable:'true'});
+        span.text("New Card");
+        button.append(span);
+        $(e.target).before(button);
+        button.on('dblclick', onDblClick)
+    });
 }
