@@ -1,4 +1,4 @@
-import persistence
+import persistence, util
 
 
 def get_card_status(status_id):
@@ -37,3 +37,11 @@ def get_cards_for_board(board_id):
             card['status_id'] = get_card_status(card['status_id'])  # Set textual status for the card
             matching_cards.append(card)
     return matching_cards
+
+def add_new_board(title):
+    new_id = util.get_max_id(persistence.get_boards()) + 1
+    record = [new_id, title]
+    persistence.append_to_csv(persistence.BOARDS_FILE, record)
+
+
+

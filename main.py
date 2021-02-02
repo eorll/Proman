@@ -1,9 +1,9 @@
-import json
+import json, data_handler
 
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, redirect, request
 from util import json_response
 
-import data_handler
+
 
 app = Flask(__name__)
 
@@ -44,6 +44,21 @@ def get_statuses():
     All the statuses
     """
     return data_handler.get_card_statuses()
+
+
+@app.route("/add-board", methods=['POST'])
+@json_response
+def add_board():
+    """
+    Creates new board.
+    """
+    if request.method == 'POST':
+        data = dict(request.form)
+        data_handler.add_new_board(data['title'])
+    else:
+        return print('Error')
+
+    return print(data)
 
 
 app.jinja_env.globals.update(get_cards_for_board=get_cards_for_board,
