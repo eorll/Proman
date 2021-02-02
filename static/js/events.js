@@ -1,8 +1,9 @@
 import {dataHandler} from "./data_handler.js";
 import {dom} from "/static/js/dom.js";
 
-export function initEvents() {
+function initEvents() {
     initAddColumn();
+    addCard();
 }
 
 export function initEditingColumnName(obj$) {
@@ -134,7 +135,6 @@ function allowDrop(e) {
 
 function onDragStart(e) {
     console.log('Drag start.');
-    console.log(e.currentTarget);
     e.currentTarget.classList.add('dragging');
     e.dataTransfer.setData("text", e.currentTarget.id);
 }
@@ -176,4 +176,17 @@ export function newColumn(e) {
         dom.loadBoard(board)
     });
     $(`#addBoard`).modal('hide');
+}
+
+
+function addCard() {
+    $(".add_card_button").on("click", function (e) {
+        console.log("event on")
+        let span = $("<Span>").attr({class:"card_title d-inline me-auto"});
+        let button = $("<button>" ).attr({type:'button', class:'addedCard btn btn-primary d-block w-100 my-3', draggable:'true'});
+        span.text("New Card");
+        button.append(span);
+        $(e.target).before(button);
+        button.on('dblclick', onDblClick)
+    });
 }
