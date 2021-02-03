@@ -9,7 +9,7 @@ export let element = {
         });
         newBoard.html(`
             <div class="card-header">
-                <h4 class="d-inline me-auto project-board-title">${board.title}</h4>
+                <h4 class="d-inline me-auto project-board-title btn-dark">${board.title}</h4>
                 <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split float-end d-inline"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 </button>
@@ -64,6 +64,7 @@ export let element = {
         newCard.attr('type', 'button');
         newCard.attr('draggable', 'true');
         newCard.attr('id', `card${card.id}`);
+        newCard.attr('data-order', `${card.order}`);
         newCard.html(`
             <span class="btn btn-sm btn-danger p-1 d-inline-flex justify-content-center align-items-center delete-parent" style="width: 15px; height: 15px">&times;</span>
             <h6 class="d-inline me-auto">${card.title}</h6>
