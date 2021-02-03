@@ -31,9 +31,9 @@ export let element = {
 
     getColumn: function (status, boardId) {
         let newColumn = $('<div>', {
-            class: 'card m-3 d-inline-block flex-nowrap bg-dark ' +
-                'text-light border-light project-column',
-            style: "width: 20%; min-width: 12rem;",
+            class:  'card m-3 d-inline-block flex-nowrap bg-dark ' +
+                    'text-light border-light project-column',
+            style:  "width: 20%; min-width: 12rem;",
             draggable: 'true'
         });
         newColumn.html(`
@@ -42,10 +42,9 @@ export let element = {
                     draggable="false">${status}</h5>
                 <hr>
                 <div class="card-container" id="card-box-${status.split(" ").join("")}-${boardId}"></div> 
-                       <button type="button" class="btn btn-brown border-success my-3">   
-                       <img src="/static/icons/plus.svg" style="filter: invert(); transform: scale(1.4);">  
-                       </img>  
-                       </button>
+                <button type="button" class="btn btn-brown border-success project-add-card">   
+                <img src="/static/icons/plus.svg" style="filter: invert(); transform: scale(1.4);"> 
+                </button>
                 </div>
             </div>
         `);

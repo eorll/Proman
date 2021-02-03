@@ -1,5 +1,6 @@
 import {dataHandler} from "./data_handler.js";
 import {dom} from "/static/js/dom.js";
+import {element} from "./elements.js";
 
 export function initEvents() {
     addCard();
@@ -178,20 +179,12 @@ export function newColumn(e) {
 }
 
 
-export function addCard(addCardButton$) {
-    let addBtn = addCardButton$
-    addCardButton$.on("click", function (e) {
-        let span = $("<span>").attr({class: "card_title d-inline me-auto"});
-        span.text("New Card");
-
-        let button = $("<button>").attr({
-            type: 'button',
-            class: 'btn btn-primary d-block w-100 my-3',
-            draggable: 'true'
-        });
-
-        button.append(span);
-        $(e.target).before(button);
+export function addCard(column$) {
+    let addBtn = column$.find('.project-add-card');
+    addBtn.on("click", function (e) {
+        let card = {'id': -1, 'title': 'New card', 'order': -1};
+        let button = element.getCard(card);
+        $(e.currentTarget).prev().append(button);
         button.on('dblclick', onDblClick)
     });
 }
