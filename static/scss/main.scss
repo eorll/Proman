@@ -47,6 +47,10 @@ $theme-colors: (
   opacity: 50%;
 }
 
+.margin-for-menu {
+  margin-right: 80px;
+}
+
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "../node_modules/bootstrap/scss/mixins";
 @import "../node_modules/bootstrap/scss/root";

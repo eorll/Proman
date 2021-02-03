@@ -1,7 +1,6 @@
 // It uses data_handler.js to visualize elements
 import {dataHandler} from "./data_handler.js";
 import {element} from "./elements.js";
-import * as events from "./events.js";
 
 export let dom = {
     init: function () {
@@ -39,8 +38,6 @@ export let dom = {
         for (let card of cards) {
             let cardBox = $(`#card-box-${card.status_id.split(" ").join("")}-${boardId}`);
             let newCard = element.getCard(card);
-            events.onDragCard(newCard);
-            newCard.on('dblclick', events.renameCard);
             cardBox.append(newCard);
             events.initRemoveParent();
         }
@@ -55,9 +52,6 @@ export let dom = {
         }
         for (let status of cardsStatuses) {
             let newColumn = element.getColumn(status, boardId);
-            events.initEditingColumnName(newColumn);
-            events.onDropCardOverColumn(newColumn);
-            events.initAddCard(newColumn);
             columnBox.append(newColumn);
         }
     },

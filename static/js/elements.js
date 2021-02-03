@@ -28,6 +28,8 @@ export let element = {
                 </div>
             </div>
         `);
+        events.initEditingBoardName(newBoard);
+        events.initAddColumnBtn(newBoard);
         return newBoard
     },
 
@@ -36,6 +38,8 @@ export let element = {
             class:  'card m-3 d-inline-block flex-nowrap bg-dark ' +
                     'text-light border-light project-column column-body',
             style:  "width: 20%; min-width: 12rem;",
+
+
         });
         newColumn.html(`
              <button class="btn btn-sm btn-danger p-1 d-flex justify-content-center align-items-center delete-parent mt-1" style="width: 20px; height: 20px">&times;</button>
@@ -50,6 +54,9 @@ export let element = {
                 </div>
             </div>
         `);
+        events.initEditingColumnName(newColumn);
+        events.onDropCardOverColumn(newColumn);
+        events.initAddCardBtnEvent(newColumn);
         return newColumn
     },
 
@@ -59,6 +66,7 @@ export let element = {
         newCard.attr('type', 'button');
         newCard.attr('draggable', 'true');
         newCard.attr('id', `card${card.id}`);
+        newCard.attr('data-order', `${card.order}`);
         newCard.html(`
             <span class="btn btn-sm btn-danger p-1 d-inline-flex justify-content-center align-items-center delete-parent"
              style="width: 15px; height: 15px">&times;</span>
@@ -66,6 +74,9 @@ export let element = {
             <span class="badge rounded-pill bg-secondary float-end">${card.order}</span>
             <span class="visually-hidden">unread messages</span>
         `);
+
+        events.onDragCard(newCard);
+        newCard.on('dblclick', events.renameCard);
 
         return newCard
     },
