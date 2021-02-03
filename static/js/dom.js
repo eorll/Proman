@@ -1,7 +1,6 @@
 // It uses data_handler.js to visualize elements
 import {dataHandler} from "./data_handler.js";
 import {element} from "./elements.js";
-import * as events from "./events.js";
 
 export let dom = {
     init: function () {

@@ -157,7 +157,7 @@ export function initAddCardBtnEvent(column$) {
         button.find('h6').after(input);
         $(e.currentTarget).prev().append(button);
         applyCancelAddingCard(button, input);
-        button.on('dblclick', renameCard);
+        // button.on('dblclick', renameCard);
         input.select();
         input.focus();
     });
@@ -201,12 +201,14 @@ function applyCardName(card, input) {
             card.children().removeClass('d-none');
             card.find('h6').text(card.find('input').val());
             card.find('input').remove();
+            $(document).off('keydown');
         }
     });
     input.on('focusout', function (e) {
         card.children().removeClass('d-none');
         card.find('h6').text(card.find('input').val());
         card.find('input').remove();
+        $(document).off('keydown');
     });
 }
 
