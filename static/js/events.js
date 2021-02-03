@@ -114,81 +114,24 @@ function displayTitle(input$) {
 
 
 function addColumn (e){
-    let columnsContainer = $(this).parent().parent().siblings(".flex-nowrap:first");
-    let uniqueId = `${$(e.target).attr("id").trim()}tmp`
+    let columnsContainer = $(this).parent().parent().next();
 
-    let colDiv = $("<div>", {
-        class: "card m-3 d-inline-block flex-nowrap bg-dark text-light border-light",
-        style: "width: 20%; min-width: 12rem;",
-        id: uniqueId,
-    });
-    let deleteButton = $("<button>", {
-        class: "btn btn-sm btn-danger p-1 d-flex justify-content-center align-items-center delete-parent mt-1",
-        style: "width: 20px; height: 20px",
-        html: "&times"
-    });
-    let inputText = $("<input>", {
+    let newColumn = element.getColumn('New column', columnsContainer.parent('.project-boards').attr('id'));
+
+    let input = $("<input>", {
         type: "text",
-        class: "title-input",
-        id: "inputCont"
+        class: "input title-input w-100 text-center",
+        id: "inputCont",
+        value: "New column"
     });
-    let cardBody = $("<div>", {
-        class: "card-body"
-    });
-    let hr = $("<hr>")
-    let cardContainer = $("<div>",{
-        class: "card-container"
-    });
-    let addButton = $("<button>", {
-        type: "button",
-        class: "btn btn-brown border-success project-add-card"
-    });
-    let addButtonImage = $("<img>", {
-        src: "/static/icons/plus.svg",
-        style: "filter: invert(); transform: scale(1.4);"
-    });
+    applyCancelAddingCol(input, newColumn);
 
+    newColumn.find('.project-status-title').addClass('d-none');
+    newColumn.find('.project-status-title').after(input);
 
-    let column = colDiv
-        .append(deleteButton)
-        .append(cardBody
-            .append(inputText)
-            .append(hr)
-            .append(cardContainer)
-            .append(addButton
-                .append(addButtonImage)))
-
-    if ($(e.target).html() === "New column"){
-        columnsContainer.prepend(column);
-        $(e.target).html("Cancel");
-         inputText.select();
-    } else {
-        $("#" + uniqueId).remove();
-        $(e.target).html("New column");
-    }
-
-    let btn = $(e.target);
-
-
-
-    inputText.keypress(function(e) {
-        if (e.keyCode === 13){
-            let titleVal = $(e.target).val();
-            let title = $("<h5>", {
-                type: "text",
-                class: "project-status-file column_name btn-dark d-block w-100 my-0 text-center",
-                html: titleVal
-            });
-            if (titleVal.length > 0) {
-                $(e.target).replaceWith(title);
-                btn.html("New column");
-                $(title).dblclick(onDblClick);
-                $("#"+uniqueId).prepend(deleteButton);
-                deleteButton.click(removeParent)
-            }
-        }
-    });
-
+    columnsContainer.prepend(newColumn);
+    input.select();
+    input.focus();
 }
 
 function allowDrop(e) {
