@@ -6,16 +6,15 @@ export function initEvents() {
 }
 
 export function initEditingColumnName(obj$) {
-    obj$.children('.card-body').children('.project-status-title').on('dblclick', onDblClick);
+    obj$.find('.project-status-title').on('dblclick', onDblClick);
 }
 
 export function initEditingBoardName(obj$) {
-    obj$.children('.card-header').children('.project-board-title').on('dblclick', onDblClick);
+    obj$.find('.project-board-title').on('dblclick', onDblClick);
 }
 
 export function initAddColumnBtn(board$) {
-    board$.children('.card-body').children('.container-fluid').children('.row')
-        .children('.card-header').children('a').click(addColumn);
+    board$.find('.new-col').click(addColumn);
 }
 
 export function onDragCard(card$) {
@@ -151,12 +150,12 @@ function onDragEnd(e) {
 
 function onDropInColumn(e) {
     console.log('Drop in column.');
-    console.log($(e.currentTarget).children('.card-body').children('.card-container'));
+    console.log($(e.currentTarget).find('.card-container'));
 
     let id = e.dataTransfer.getData("text");
     let draggedElement = $(`#${id}`);
     console.log(draggedElement);
-    $(e.currentTarget).children('.card-body').children('.card-container').append(draggedElement);
+    $(e.currentTarget).find('.card-container').append(draggedElement);
 }
 
 function onDropBeforeCard(e) {
@@ -179,12 +178,18 @@ export function newColumn(e) {
 }
 
 
-function addCard() {
-    $(".add_card_button").on("click", function (e) {
-        console.log("event on");
-        let span = $("<Span>").attr({class:"card_title d-inline me-auto"});
-        let button = $("<button>" ).attr({type:'button', class:'addedCard btn btn-primary d-block w-100 my-3', draggable:'true'});
+export function addCard(addCardButton$) {
+    let addBtn = addCardButton$
+    addCardButton$.on("click", function (e) {
+        let span = $("<span>").attr({class: "card_title d-inline me-auto"});
         span.text("New Card");
+
+        let button = $("<button>").attr({
+            type: 'button',
+            class: 'btn btn-primary d-block w-100 my-3',
+            draggable: 'true'
+        });
+
         button.append(span);
         $(e.target).before(button);
         button.on('dblclick', onDblClick)

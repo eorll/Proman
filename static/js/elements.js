@@ -41,7 +41,11 @@ export let element = {
                 <h5 type="text" class="project-status-title column_name btn-dark d-block w-100 my-0 text-center"
                     draggable="false">${status}</h5>
                 <hr>
-                <div class="card-container" id="card-box-${status.split(" ").join("")}-${boardId}"></div>                
+                <div class="card-container" id="card-box-${status.split(" ").join("")}-${boardId}"></div> 
+                       <button type="button" class="btn btn-brown border-success my-3">   
+                       <img src="/static/icons/plus.svg" style="filter: invert(); transform: scale(1.4);">  
+                       </img>  
+                       </button>
                 </div>
             </div>
         `);
@@ -62,4 +66,4 @@ export let element = {
         `);
         return newCard
     },
-};
+}
