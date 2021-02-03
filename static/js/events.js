@@ -111,29 +111,45 @@ function onDrag(e) {
 function onDragEnd(e) {
     console.log('Drag end.');
     e.currentTarget.classList.remove('dragging');
-    $('.card-container').removeClass('bg-brown')
-    $('.project-card-placeholder').remove();
 }
 
 function onDropInColumn(e) {
     console.log('Drop in column.');
-    console.log($(e.currentTarget).find('.card-container'));
 
     let id = e.dataTransfer.getData("text");
     let draggedElement = $(`#${id}`);
-    console.log(draggedElement);
+    console.log(draggedElement.parent().children());
+    let previousParent = draggedElement.parent();
+
     $(e.currentTarget).find('.card-container').append(draggedElement);
+    $(e.currentTarget).find('.card-container').children().each(function (i) {
+        $(this).attr('data-order', i);
+        $(this).find('.badge').text(i);
+    });
+    previousParent.children().each(function (i) {
+        $(this).attr('data-order', i);
+        $(this).find('.badge').text(i);
+    });
 }
 
 function onDropBeforeCard(e) {
     e.stopPropagation();
     console.log('Drop before card.');
-    console.log(e.currentTarget);
 
     let id = e.dataTransfer.getData("text");
     let draggedElement = $(`#${id}`);
+    let previousParent = draggedElement.parent();
 
     $(e.currentTarget).before(draggedElement);
+    $(e.currentTarget).parent().children().each(function (i) {
+        $(this).attr('data-order', i);
+        $(this).find('.badge').text(i);
+    });
+
+    previousParent.children().each(function (i) {
+        $(this).attr('data-order', i);
+        $(this).find('.badge').text(i);
+    });
 }
 
 export function newColumn(e) {
