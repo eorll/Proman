@@ -3,7 +3,7 @@ import {dom} from "/static/js/dom.js";
 import {element} from "./elements.js";
 
 export function initEvents() {
-    initAddCard();
+    initAddCardBtnEvent();
 }
 
 export function initEditingColumnName(obj$) {
@@ -82,44 +82,42 @@ function addColumn(e) {
     let columnsContainer = $(this).parent().parent().next();
 
     let newColumn = element.getColumn('New column', columnsContainer.parent('.project-boards').attr('id'));
-    initAddCard(newColumn);
+    initAddCardBtnEvent(newColumn);
 
     let input = $("<input>", {
         type: "text",
         class: "input title-input w-100 text-center",
         id: "inputCont",
         value: "New column"
-    })
+    });
+    $(document).on('keydown', function (e) {
+        if (e.which === 27) {
+            newColumn.remove();
+        }
+    });
+    input.on('keypress', function (e) {
+        // If you pressed enter
+        if (e.which === 13) {
+            newColumn.find('.project-status-title').val(input.val())
+            newColumn.find('.project-status-title').removeClass('d-none');
+            input.remove();
+            $(document).off('keydown');
+        }
+    });
+    input.on('focusout', function (e) {
+        newColumn.find('.project-status-title').val(input.val())
+        newColumn.find('.project-status-title').removeClass('d-none');
+        input.remove();
+        $(document).off('keydown');
+    });
+
 
     newColumn.find('.project-status-title').addClass('d-none');
     newColumn.find('.project-status-title').after(input);
 
-    if ($(e.target).html() === "New column") {
-        columnsContainer.prepend(newColumn);
-        $(e.target).html("Cancel");
-        input.select();
-    } else {
-        $("#" + $(e.target).attr("id") + "tmp").remove();
-        $(e.target).html("New column");
-    }
-
-    let btn = $(e.target);
-
-    $(".title-input").keypress(function (e) {
-        if (e.keyCode === 13) {
-            let titleVal = $(e.target).val();
-            let title = $("<h5>", {
-                type: "text",
-                class: "column_name btn-dark d-block w-100 my-0 text-center",
-                draggable: "false",
-                html: titleVal
-            });
-            if (title.length > 0) {
-                $(e.target).replaceWith(title);
-                btn.html("New column");
-            }
-        }
-    });
+    columnsContainer.prepend(newColumn);
+    input.select();
+    input.focus();
 }
 
 function allowDrop(e) {
@@ -172,18 +170,18 @@ export function newColumn(e) {
 }
 
 
-export function initAddCard(column$) {
+export function initAddCardBtnEvent(column$) {
     let addBtn = column$.find('.project-add-card');
     addBtn.on("click", function (e) {
         let card = {'id': -1, 'title': 'New card', 'order': -1};
         let button = element.getCard(card);
         button.children().addClass('d-none');
 
-        let input = $('<input type="text" class="input d-inline-block w-100 border-light" placeholder="New task" value="New task">');
+        let input = $('<input type="text" class="input d-inline-block w-100 border-light text-center" placeholder="New task" value="New task">');
 
         button.find('h6').after(input);
         $(e.currentTarget).prev().append(button);
-        applyCancelRename(button, input);
+        applyCancelAddingCard(button, input);
         button.on('dblclick', renameCard);
         input.select();
         input.focus();
@@ -192,15 +190,15 @@ export function initAddCard(column$) {
 
 export function renameCard(e) {
     $(e.currentTarget).children().addClass('d-none');
-    let input = $('<input type="text" class="input d-inline-block w-100 border-light"' +
+    let input = $('<input type="text" class="input d-inline-block w-100 border-light text-center"' +
         ` placeholder="New task" value="${$(e.currentTarget).find('h6').text()}">`);
-    applyCancelRename($(e.currentTarget), input)
+    applyCancelRenaming($(e.currentTarget), input)
     $(e.currentTarget).find('h6').after(input);
     input.select();
     input.focus();
 }
 
-function applyCancelRename(card, input) {
+function applyCancelRenaming(card, input) {
     input.on('keypress', function (e) {
         // If you pressed enter
         if (e.which === 13) {
@@ -219,6 +217,28 @@ function applyCancelRename(card, input) {
             card.find('input').remove();
             card.children().removeClass('d-none');
             card.find('h1').text('New task');
+        }
+    });
+}
+
+function applyCancelAddingCard(card, input) {
+    input.on('keypress', function (e) {
+        // If you pressed enter
+        if (e.which === 13) {
+            card.children().removeClass('d-none');
+            card.find('h6').text(card.find('input').val());
+            card.find('input').remove();
+        }
+    });
+    input.on('focusout', function (e) {
+        card.children().removeClass('d-none');
+        card.find('h6').text(card.find('input').val());
+        card.find('input').remove();
+    });
+    $(document).on('keydown', function (e) {
+        // If you pressed esc
+        if (e.which === 27) {
+            card.find('input').parent().remove();
         }
     });
 }
