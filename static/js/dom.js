@@ -16,7 +16,6 @@ export let dom = {
         for (let board of boards) {
             let newBoard = element.getBoard(board);
             boardBox.append(newBoard);
-            events.initEditingBoardName(newBoard);
             events.initAddColumnBtn(newBoard);
             events.initDraggingElements();
             dom.loadCards(`${board.id}`);
