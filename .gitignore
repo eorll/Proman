@@ -2,3 +2,4 @@
 /__pycache__
 /.idea
 /static/scss/.sass-cache/
+/data/

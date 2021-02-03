@@ -35,6 +35,7 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
+    from models import User
     boards = json.loads(get_boards().data)
     login_form = LoginForm()
     register_form = RegistrationForm()

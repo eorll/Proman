@@ -148,7 +148,6 @@ function addColumn (e){
         style: "filter: invert(); transform: scale(1.4);"
     });
 
-    initAddCard(addButtonImage)
 
     let column = colDiv
         .append(deleteButton)
