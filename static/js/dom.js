@@ -59,15 +59,15 @@ export let dom = {
     initEventAddBoardBtn: function () {
         let btn = document.getElementById('add-board-btn');
         btn.addEventListener('click', event => {
-            let boardForm = new FormData(document.getElementById('new-board-form'))
+            let boardForm = new FormData(document.getElementById('new-board-form'));
             dataHandler.createNewBoard(boardForm, function (board) {
-                dom.loadBoard(board)
+                dom.loadBoard(board);
             });
             $(`#addBoard`).modal('hide');
         })
     },
     loadBoard: function (board) {
         let newBoard = element.getBoard(board);
-        newBoard.insertBefore($(`#boards-container`))
+        newBoard.insertBefore($('#boards-container').children()[0]);
     },
 };
