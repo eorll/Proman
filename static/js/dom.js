@@ -7,16 +7,16 @@ export let dom = {
     init: function () {
         // This function should run once, when the page is loaded.
         this.loadBoards();
+        this.initEventAddBoardBtn();
+        events.initDraggingBoard();
     },
 
     showBoards: function (boards) {
         // shows boards appending them to #boards div
-        // it adds necessary event listeners also
         let boardBox = $('#boards-container');
         for (let board of boards) {
             let newBoard = element.getBoard(board);
             boardBox.append(newBoard);
-            events.initDraggingElements();
             dom.loadCards(`${board.id}`);
         }
     },
@@ -24,7 +24,6 @@ export let dom = {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
-            events.initHideColumns();
         });
     },
     loadCards: function (boardId) {
@@ -38,7 +37,6 @@ export let dom = {
             let cardBox = $(`#card-box-${card.status_id.split(" ").join("")}-${boardId}`);
             let newCard = element.getCard(card);
             cardBox.append(newCard);
-            events.initRemoveParent();
         }
     },
     showStatuses: function (cards, boardId) {

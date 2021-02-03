@@ -30,6 +30,9 @@ export let element = {
         `);
         events.initEditingBoardName(newBoard);
         events.initAddColumnBtn(newBoard);
+        events.initDraggingColumns(newBoard);
+        events.initHideColumns(newBoard)
+        events.initRemoveParent(newBoard);
         return newBoard
     },
 
@@ -57,6 +60,7 @@ export let element = {
         events.initEditingColumnName(newColumn);
         events.onDropCardOverColumn(newColumn);
         events.initAddCardBtnEvent(newColumn);
+        events.initRemoveParent(newColumn);
         return newColumn
     },
 
@@ -74,7 +78,7 @@ export let element = {
             <span class="badge rounded-pill bg-secondary float-end">${card.order}</span>
             <span class="visually-hidden">unread messages</span>
         `);
-
+        events.initRemoveParent(newCard);
         events.onDragCard(newCard);
         newCard.on('dblclick', events.renameCard);
 

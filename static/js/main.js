@@ -5,7 +5,6 @@ function init() {
     // init data
     // loads the boards to the screen
     dom.init();
-    dom.initEventAddBoardBtn();
 }
 
 init();

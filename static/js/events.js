@@ -28,43 +28,41 @@ export function onDropCardOverColumn(col$) {
     col$.get(0).addEventListener('dragover', allowDrop);
 }
 
-export function initDraggingElements() {
-    $( ".row.flex-nowrap" ).sortable({
+export function initDraggingColumns(board$) {
+    board$.find(".project-col-container").sortable({
         tolerance: "pointer",
         opacity: 0.5,
         placeholder: "placeholder",
-        start: function(e, ui){
+        start: function (e, ui) {
             ui.placeholder.height(ui.item.height());
             ui.placeholder.width(ui.item.width());
             $(ui.placeholder).hide(300);
-
         },
-        change: function (e,ui){
+        change: function (e, ui) {
             $(ui.placeholder).hide().show(300);
         }
-     });
+    });
+}
 
-
+export function initDraggingBoard() {
     $("#boards-container").sortable({
-        start: function(e, ui){
+        start: function (e, ui) {
             ui.placeholder.height(ui.item.height());
             ui.placeholder.width(ui.item.width());
             $(ui.placeholder).hide(300);
-
         },
-        change: function (e,ui){
+        change: function (e, ui) {
             $(ui.placeholder).hide().show(300);
         }
-    })
-
+    });
 }
 
-export function initRemoveParent() {
-    $(".delete-parent").click(removeParent)
+export function initRemoveParent(obj$) {
+    obj$.find(".delete-parent").click(removeParent);
 }
 
-export function initHideColumns() {
-    $(".hide-col").click(hideColumns)
+export function initHideColumns(board$) {
+    board$.find(".hide-col").click(hideColumns);
 }
 
 function onDblClick(e) {
@@ -113,7 +111,7 @@ function displayTitle(input$) {
 }
 
 
-function addColumn (e){
+function addColumn(e) {
     let columnsContainer = $(this).parent().parent().next();
 
     let newColumn = element.getColumn('New column', columnsContainer.parent('.project-boards').attr('id'));
@@ -274,13 +272,30 @@ function applyCancelAddingCol(input, column) {
             column.remove();
         }
     });
+    input.on('keypress', function (e) {
+        // If you pressed enter
+        if (e.which === 13) {
+            console.log(column.find('.project-status-title'));
+            column.find('.project-status-title').text(input.val())
+            column.find('.project-status-title').removeClass('d-none');
+            input.remove();
+            $(document).off('keydown');
+        }
+    });
+    input.on('focusout', function (e) {
+        column.find('.project-status-title').text(input.val())
+        column.find('.project-status-title').removeClass('d-none');
+        input.remove();
+        $(document).off('keydown');
+    });
 }
 
-function removeParent (e){
+function removeParent(e) {
     $(e.target).parent().remove()
 }
 
 
-function hideColumns (e) {
+function hideColumns(e) {
     let cardBody = $(e.target).parent().siblings(".card-body")
-    cardBody.toggle(500)}
+    cardBody.toggle(500)
+}
