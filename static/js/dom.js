@@ -38,6 +38,7 @@ export let dom = {
             let cardBox = $(`#card-box-${card.status_id.split(" ").join("")}-${boardId}`);
             let newCard = element.getCard(card);
             events.onDragCard(newCard);
+            newCard.on('dblclick', events.renameCard);
             cardBox.append(newCard);
         }
     },
