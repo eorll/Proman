@@ -192,13 +192,13 @@ function onDropBeforeCard(e) {
     });
 }
 
-export function newColumn(e) {
-    let boardForm = new FormData(document.getElementById('new-board-form'));
-    dataHandler.createNewBoard(boardForm, function (board) {
-        dom.loadBoard(board);
-    });
-    $(`#addBoard`).modal('hide');
-}
+// export function newColumn(e) {
+//     let boardForm = new FormData(document.getElementById('new-board-form'));
+//     dataHandler.createNewBoard(boardForm, function (board) {
+//         dom.loadBoard(board);
+//     });
+//     $(`#addBoard`).modal('hide');
+// }
 
 
 export function initAddCardBtnEvent(column$) {
@@ -274,7 +274,6 @@ function applyCancelAddingCol(input, column) {
             column.remove();
         }
     });
-
 }
 
 function removeParent (e){
