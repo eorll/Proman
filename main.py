@@ -1,21 +1,75 @@
-import data_handler
 import json
 
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, redirect, flash
+from flask_login import current_user, login_user, logout_user, LoginManager
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError
+from flask_bcrypt import Bcrypt
 
+from forms import RegistrationForm, LoginForm
 from util import json_response
+from config import Config
+
+import data_handler
 
 app = Flask(__name__)
+app.config.from_object(Config)
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+# login_manager.init_app(app)
+# login_manager.login_view = "index"
+# login_manager.login_message_category = "info"
+
+with app.app_context():
+    from models import User
 
 
-@app.route("/")
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+@app.route("/", methods=["GET", "POST"])
 def index():
     """
     This is a one-pager which shows all the boards and cards
     """
     boards = json.loads(get_boards().data)
+    login_form = LoginForm()
+    register_form = RegistrationForm()
+    try:
+        if register_form.validate_on_submit():
+            hashed_password = bcrypt.generate_password_hash(register_form.password.data).decode("utf-8")
+            user = User(username=register_form.username.data, email=register_form.email.data, password=hashed_password)
+            db.session.add(user)
+            db.session.commit()
+            flash(f"Welcome {register_form.username.data}! You can now login.", "success")
+            return redirect(url_for("index"))
+    except IntegrityError:
+        flash("User with provided username or email already exists.", "danger")
+        return redirect(url_for("index"))
 
-    return render_template('index.html', boards=boards)
+    if login_form.validate_on_submit():
+        user = User.query.filter_by(email=login_form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, login_form.password.data):
+            login_user(user, remember=login_form.remember.data)
+            flash(f"Welcome back, {user.username}", "success")
+        else:
+            flash("Login failed. Please check email and password", "danger")
+        return redirect(url_for("index"))
+
+    return render_template('index.html', boards=boards, login_form=login_form, register_form=register_form)
+
+
+@app.route("/logout")
+def logout():
+    if not current_user.is_authenticated:
+        flash("You can not logout if you're not logged in, mate!", "info")
+    else:
+        logout_user()
+        flash("Logged out. See you again!", "success")
+    return redirect(url_for("index"))
 
 
 @app.route("/get-boards")
@@ -44,21 +98,6 @@ def get_statuses():
     All the statuses
     """
     return data_handler.get_card_statuses()
-
-
-@app.route("/add-board", methods=['POST'])
-@json_response
-def add_board():
-    """
-    Creates new board.
-    """
-    if request.method == 'POST':
-        data = dict(request.form)
-        data_handler.add_new_board(data['title'])
-    else:
-        return print('Error')
-
-    return print(data)
 
 
 app.jinja_env.globals.update(get_cards_for_board=get_cards_for_board,

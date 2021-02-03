@@ -32,6 +32,45 @@ export function onDropCardOverColumn(col$) {
     col$.get(0).addEventListener('dragover', allowDrop);
 }
 
+export function initDraggingElements() {
+    $( ".row.flex-nowrap" ).sortable({
+        tolerance: "pointer",
+        opacity: 0.5,
+        placeholder: "placeholder",
+        start: function(e, ui){
+            ui.placeholder.height(ui.item.height());
+            ui.placeholder.width(ui.item.width());
+            $(ui.placeholder).hide(300);
+
+        },
+        change: function (e,ui){
+            $(ui.placeholder).hide().show(300);
+        }
+     });
+
+
+    $("#boards-container").sortable({
+        start: function(e, ui){
+            ui.placeholder.height(ui.item.height());
+            ui.placeholder.width(ui.item.width());
+            $(ui.placeholder).hide(300);
+
+        },
+        change: function (e,ui){
+            $(ui.placeholder).hide().show(300);
+        }
+    })
+
+}
+
+export function initRemoveParent() {
+    $(".delete-parent").click(removeParent)
+}
+
+export function initHideColumns() {
+    $(".hide-col").click(hideColumns)
+}
+
 function onDblClick(e) {
 
     let input = $('<input>');
@@ -78,45 +117,79 @@ function displayTitle(input$) {
 }
 
 
-function addColumn(e) {
-    let columnsContainer = $(this).parent().parent().next();
+function addColumn (e){
+    let columnsContainer = $(this).parent().parent().siblings(".flex-nowrap:first");
+    let uniqueId = `${$(e.target).attr("id").trim()}tmp`
 
-    let newColumn = element.getColumn('New column', columnsContainer.parent('.project-boards').attr('id'));
-    initAddCard(newColumn);
-
-    let input = $("<input>", {
+    let colDiv = $("<div>", {
+        class: "card m-3 d-inline-block flex-nowrap bg-dark text-light border-light",
+        style: "width: 20%; min-width: 12rem;",
+        id: uniqueId,
+    });
+    let deleteButton = $("<button>", {
+        class: "btn btn-sm btn-danger p-1 d-flex justify-content-center align-items-center delete-parent mt-1",
+        style: "width: 20px; height: 20px",
+        html: "&times"
+    });
+    let inputText = $("<input>", {
         type: "text",
-        class: "input title-input w-100 text-center",
-        id: "inputCont",
-        value: "New column"
-    })
+        class: "title-input",
+        id: "inputCont"
+    });
+    let cardBody = $("<div>", {
+        class: "card-body"
+    });
+    let hr = $("<hr>")
+    let cardContainer = $("<div>",{
+        class: "card-container"
+    });
+    let addButton = $("<button>", {
+        type: "button",
+        class: "btn btn-brown border-success project-add-card"
+    });
+    let addButtonImage = $("<img>", {
+        src: "/static/icons/plus.svg",
+        style: "filter: invert(); transform: scale(1.4);"
+    });
 
-    newColumn.find('.project-status-title').addClass('d-none');
-    newColumn.find('.project-status-title').after(input);
+    initAddCard(addButtonImage)
 
-    if ($(e.target).html() === "New column") {
-        columnsContainer.prepend(newColumn);
+    let column = colDiv
+        .append(deleteButton)
+        .append(cardBody
+            .append(inputText)
+            .append(hr)
+            .append(cardContainer)
+            .append(addButton
+                .append(addButtonImage)))
+
+    if ($(e.target).html() === "New column"){
+        columnsContainer.prepend(column);
         $(e.target).html("Cancel");
-        input.select();
+         inputText.select();
     } else {
-        $("#" + $(e.target).attr("id") + "tmp").remove();
+        $("#" + uniqueId).remove();
         $(e.target).html("New column");
     }
 
     let btn = $(e.target);
 
-    $(".title-input").keypress(function (e) {
-        if (e.keyCode === 13) {
+
+
+    inputText.keypress(function(e) {
+        if (e.keyCode === 13){
             let titleVal = $(e.target).val();
             let title = $("<h5>", {
                 type: "text",
-                class: "column_name btn-dark d-block w-100 my-0 text-center",
-                draggable: "false",
+                class: "project-status-file column_name btn-dark d-block w-100 my-0 text-center",
                 html: titleVal
             });
-            if (title.length > 0) {
+            if (titleVal.length > 0) {
                 $(e.target).replaceWith(title);
                 btn.html("New column");
+                $(title).dblclick(onDblClick);
+                $("#"+uniqueId).prepend(deleteButton);
+                deleteButton.click(removeParent)
             }
         }
     });
@@ -134,6 +207,7 @@ function onDragStart(e) {
 
 function onDrag(e) {
 }
+
 
 function onDragEnd(e) {
     console.log('Drag end.');
@@ -221,4 +295,14 @@ function applyCancelRename(card, input) {
             card.find('h1').text('New task');
         }
     });
+}
+
+function removeParent (e){
+    $(e.target).parent().remove()
+}
+
+
+function hideColumns (e) {
+    let cardBody = $(e.target).parent().siblings(".card-body")
+    cardBody.toggle(500)
 }

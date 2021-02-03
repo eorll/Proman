@@ -10,16 +10,18 @@
                 aria-controls="v-pills-profile" aria-selected="false"
                 style="transform: scale(1.3)">
             <img src="/static/icons/arrow-clockwise.svg" style="filter: invert()"></button>
-        <button type="button" class="btn btn-brown border-success my-3" id="v-pills-messages-tab"
-                href="#" role="tab" data-bs-toggle="tooltip" data-bs-placement="left" title="Log in"
-                aria-controls="v-pills-messages" aria-selected="false"
+        {% if not current_user.is_authenticated %}
+        <button type="button" class="btn btn-brown border-success my-3" data-bs-toggle="modal" data-bs-target="#loginModal" title="Log in"
                 style="transform: scale(1.3)">
             <img src="/static/icons/box-arrow-in-right.svg" style="filter: invert(); transform: scale(1.1)"></button>
-        <button type="button" class="btn btn-brown border-success my-3" id="v-pills-messages-tab"
-                href="#" role="tab" data-bs-toggle="tooltip" data-bs-placement="left" title="Sign in"
-                aria-controls="v-pills-messages" aria-selected="false"
+        <button type="button" class="btn btn-brown border-success my-3" data-bs-toggle="modal" data-bs-target="#registerModal" title="Sign in"
                 style="transform: scale(1.3)">
             <img src="/static/icons/clipboard.svg" style="filter: invert(); transform: scale(1.1)"></button>
+        {% else %}
+            <a type="button" class="btn btn-brown border-success my-3" href="{{ url_for("logout") }}"
+                style="transform: scale(1.3)">
+            <img src="/static/icons/log-out.svg" style="filter: invert(); width: 16px; height: 16px"></a>
+        {% endif %}
     </div>
 </div>
 
@@ -43,3 +45,137 @@
         </div>
     </div>
 </div>
+
+
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="registerModalLabel">Registration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for("index") }}" method="POST" id="registrationForm">
+                        {{ register_form.csrf_token }}
+                        <div class="mb-3">
+                            {{ register_form.username.label(class="form-control-label text-dark mb-2") }}
+                            {% if register_form.username.errors %}
+                                {{ register_form.username(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register_form.username.errors %}
+                                        <span>
+                                            {{ error }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ register_form.username(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ register_form.email.label(class="form-control-label text-dark mb-2") }}
+                            {% if register_form.email.errors %}
+                                {{ register_form.email(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register_form.email.errors %}
+                                        <span>
+                                            {{ error }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ register_form.email(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ register_form.password.label(class="form-control-label text-dark mb-2") }}
+                            {% if register_form.password.errors %}
+                                {{ register_form.password(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register_form.password.errors %}
+                                        <span>
+                                            {{ error }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ register_form.password(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ register_form.confirm_password.label(class="form-control-label text-dark mb-2") }}
+                            {% if register_form.confirm_password.errors %}
+                                {{ register_form.confirm_password(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register_form.confirm_password.errors %}
+                                        <span>
+                                            {{ error }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ register_form.confirm_password(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="modal-footer">
+                            {{ register_form.submit(class="btn btn-secondary") }}
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="loginModalLabel">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for("index") }}" method="POST" id="loginForm">
+                        {{ login_form.csrf_token }}
+                        <div class="mb-3">
+                            {{ login_form.email.label(class="form-control-label text-dark mb-2") }}
+                            {% if login_form.email.errors %}
+                                {{ login_form.email(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in login_form.email.errors %}
+                                        <span>
+                                            {{ error }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ login_form.email(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ login_form.password.label(class="form-control-label text-dark mb-2") }}
+                            {% if login_form.password.errors %}
+                                {{ login_form.password(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in login_form.password.errors %}
+                                        <span>
+                                            {{ error }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ login_form.password(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-check mb-3">
+                            {{ login_form.remember(class="form-check-input") }}
+                            {{ login_form.remember.label(class="form-check-label") }}
+                        </div>
+                        <div class="modal-footer">
+                            {{ login_form.submit(class="btn btn-secondary") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
