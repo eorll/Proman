@@ -3,7 +3,7 @@ import {dom} from "/static/js/dom.js";
 import {element} from "./elements.js";
 
 export function initEvents() {
-    addCard();
+    initAddCard();
 }
 
 export function initEditingColumnName(obj$) {
@@ -79,30 +79,23 @@ function displayTitle(input$) {
 
 
 function addColumn(e) {
-    let columnsContainer = $(this).parent().parent().siblings(".flex-nowrap:first");
+    let columnsContainer = $(this).parent().parent().next();
 
-    let colDiv = $("<div>", {
-        class: "card m-3 d-inline-block flex-nowrap bg-dark text-light border-light",
-        style: "width: 20%; min-width: 12rem;",
-        id: $(e.target).attr("id") + "tmp",
-        draggable: "true"
+    let newColumn = element.getColumn('New column', columnsContainer.parent('.project-boards').attr('id'));
+    initAddCard(newColumn);
 
-    })
-    let innerDiv = $("<div>", {
-        class: "card-body text-center"
-    })
     let input = $("<input>", {
         type: "text",
-        class: "title-input",
-        id: "inputCont"
+        class: "input title-input w-100 text-center",
+        id: "inputCont",
+        value: "New column"
     })
-    let column = colDiv.append(
-        innerDiv.append(input))
-        .append($("<hr>"))
 
+    newColumn.find('.project-status-title').addClass('d-none');
+    newColumn.find('.project-status-title').after(input);
 
     if ($(e.target).html() === "New column") {
-        columnsContainer.prepend(column);
+        columnsContainer.prepend(newColumn);
         $(e.target).html("Cancel");
         input.select();
     } else {
@@ -122,8 +115,8 @@ function addColumn(e) {
                 html: titleVal
             });
             if (title.length > 0) {
-                $(e.target).replaceWith(title)
-                btn.html("New column")
+                $(e.target).replaceWith(title);
+                btn.html("New column");
             }
         }
     });
@@ -179,13 +172,15 @@ export function newColumn(e) {
 }
 
 
-export function addCard(column$) {
+export function initAddCard(column$) {
     let addBtn = column$.find('.project-add-card');
     addBtn.on("click", function (e) {
         let card = {'id': -1, 'title': 'New card', 'order': -1};
         let button = element.getCard(card);
         button.children().addClass('d-none');
+
         let input = $('<input type="text" class="input d-inline-block w-100 border-light" placeholder="New task" value="New task">');
+
         button.find('h6').after(input);
         $(e.currentTarget).prev().append(button);
         applyCancelRename(button, input);

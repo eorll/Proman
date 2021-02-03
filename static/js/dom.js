@@ -54,7 +54,7 @@ export let dom = {
             let newColumn = element.getColumn(status, boardId);
             events.initEditingColumnName(newColumn);
             events.onDropCardOverColumn(newColumn);
-            events.addCard(newColumn);
+            events.initAddCard(newColumn);
             columnBox.append(newColumn);
         }
     },
