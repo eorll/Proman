@@ -184,7 +184,33 @@ export function addCard(column$) {
     addBtn.on("click", function (e) {
         let card = {'id': -1, 'title': 'New card', 'order': -1};
         let button = element.getCard(card);
+        button.children().addClass('d-none');
+        let input = $('<input type="text" class="input d-inline-block w-100 border-light" placeholder="New task">');
+        button.find('h6').after(input);
         $(e.currentTarget).prev().append(button);
+        input.on('keypress', function (e) {
+            // If you pressed enter
+            if (e.which === 13) {
+                button.children().removeClass('d-none');
+                button.find('h6').text(button.find('input').val());
+                button.find('input').remove();
+            }
+        });
+        input.on('focusout', function (e) {
+            button.children().removeClass('d-none');
+            button.find('h6').text(button.find('input').val());
+            button.find('input').remove();
+        });
+        $(document).on('keydown', function (e) {
+            if (e.which === 27) {
+                button.find('input').remove();
+                button.children().removeClass('d-none');
+                button.find('h1').text('New task');
+            }
+        });
+        input.select();
+        input.focus();
+        //TODO implement event
         button.on('dblclick', onDblClick)
     });
 }
