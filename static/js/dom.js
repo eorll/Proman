@@ -21,8 +21,6 @@ export let dom = {
         for (let board of boards) {
             let newBoard = element.getBoard(board);
             boardBox.append(newBoard);
-            events.initEditingBoardName(newBoard);
-            events.initAddColumnBtn(newBoard);
             dom.loadCards(`${board.id}`);
         }
     },
@@ -37,8 +35,6 @@ export let dom = {
         for (let card of cards) {
             let cardBox = $(`#card-box-${card.status_id.split(" ").join("")}-${boardId}`);
             let newCard = element.getCard(card);
-            events.onDragCard(newCard);
-            newCard.on('dblclick', events.renameCard);
             cardBox.append(newCard);
         }
     },
@@ -52,9 +48,6 @@ export let dom = {
         }
         for (let status of cardsStatuses) {
             let newColumn = element.getColumn(status, boardId);
-            events.initEditingColumnName(newColumn);
-            events.onDropCardOverColumn(newColumn);
-            events.initAddCardBtnEvent(newColumn);
             columnBox.append(newColumn);
         }
     },

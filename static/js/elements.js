@@ -1,3 +1,5 @@
+import * as events from "./events.js";
+
 export let element = {
     getBoard: function (board) {
         let newBoard = $('<div>', {
@@ -26,14 +28,16 @@ export let element = {
                 </div>
             </div>
         `);
+        events.initEditingBoardName(newBoard);
+        events.initAddColumnBtn(newBoard);
         return newBoard
     },
 
     getColumn: function (status, boardId) {
         let newColumn = $('<div>', {
-            class:  'card m-3 d-inline-block flex-nowrap bg-dark ' +
-                    'text-light border-light project-column',
-            style:  "width: 20%; min-width: 12rem;",
+            class: 'card m-3 d-inline-block flex-nowrap bg-dark ' +
+                'text-light border-light project-column',
+            style: "width: 20%; min-width: 12rem;",
             draggable: 'true'
         });
         newColumn.html(`
@@ -48,6 +52,9 @@ export let element = {
                 </div>
             </div>
         `);
+        events.initEditingColumnName(newColumn);
+        events.onDropCardOverColumn(newColumn);
+        events.initAddCardBtnEvent(newColumn);
         return newColumn
     },
 
@@ -63,6 +70,8 @@ export let element = {
             <span class="badge rounded-pill bg-secondary float-end">${card.order}</span>
             <span class="visually-hidden">unread messages</span>
         `);
+        events.onDragCard(newCard);
+        newCard.on('dblclick', events.renameCard);
         return newCard
     },
 }

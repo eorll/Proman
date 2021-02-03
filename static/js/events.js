@@ -2,10 +2,6 @@ import {dataHandler} from "./data_handler.js";
 import {dom} from "/static/js/dom.js";
 import {element} from "./elements.js";
 
-export function initEvents() {
-    initAddCardBtnEvent();
-}
-
 export function initEditingColumnName(obj$) {
     obj$.find('.project-status-title').on('dblclick', onDblClick);
 }
@@ -82,7 +78,6 @@ function addColumn(e) {
     let columnsContainer = $(this).parent().parent().next();
 
     let newColumn = element.getColumn('New column', columnsContainer.parent('.project-boards').attr('id'));
-    initAddCardBtnEvent(newColumn);
 
     let input = $("<input>", {
         type: "text",
