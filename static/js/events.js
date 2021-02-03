@@ -90,27 +90,7 @@ function addColumn(e) {
         id: "inputCont",
         value: "New column"
     });
-    $(document).on('keydown', function (e) {
-        if (e.which === 27) {
-            newColumn.remove();
-        }
-    });
-    input.on('keypress', function (e) {
-        // If you pressed enter
-        if (e.which === 13) {
-            newColumn.find('.project-status-title').val(input.val())
-            newColumn.find('.project-status-title').removeClass('d-none');
-            input.remove();
-            $(document).off('keydown');
-        }
-    });
-    input.on('focusout', function (e) {
-        newColumn.find('.project-status-title').val(input.val())
-        newColumn.find('.project-status-title').removeClass('d-none');
-        input.remove();
-        $(document).off('keydown');
-    });
-
+    applyCancelAddingCol(input, newColumn);
 
     newColumn.find('.project-status-title').addClass('d-none');
     newColumn.find('.project-status-title').after(input);
@@ -199,19 +179,7 @@ export function renameCard(e) {
 }
 
 function applyCancelRenaming(card, input) {
-    input.on('keypress', function (e) {
-        // If you pressed enter
-        if (e.which === 13) {
-            card.children().removeClass('d-none');
-            card.find('h6').text(card.find('input').val());
-            card.find('input').remove();
-        }
-    });
-    input.on('focusout', function (e) {
-        card.children().removeClass('d-none');
-        card.find('h6').text(card.find('input').val());
-        card.find('input').remove();
-    });
+    applyCardName(card, input)
     $(document).on('keydown', function (e) {
         if (e.which === 27) {
             card.find('input').remove();
@@ -222,6 +190,16 @@ function applyCancelRenaming(card, input) {
 }
 
 function applyCancelAddingCard(card, input) {
+    applyCardName(card, input)
+    $(document).on('keydown', function (e) {
+        // If you pressed esc
+        if (e.which === 27) {
+            card.find('input').parent().remove();
+        }
+    });
+}
+
+function applyCardName(card, input) {
     input.on('keypress', function (e) {
         // If you pressed enter
         if (e.which === 13) {
@@ -235,10 +213,28 @@ function applyCancelAddingCard(card, input) {
         card.find('h6').text(card.find('input').val());
         card.find('input').remove();
     });
+}
+
+function applyCancelAddingCol(input, column) {
     $(document).on('keydown', function (e) {
-        // If you pressed esc
         if (e.which === 27) {
-            card.find('input').parent().remove();
+            column.remove();
         }
+    });
+    input.on('keypress', function (e) {
+        // If you pressed enter
+        if (e.which === 13) {
+            console.log(column.find('.project-status-title'));
+            column.find('.project-status-title').text(input.val())
+            column.find('.project-status-title').removeClass('d-none');
+            input.remove();
+            $(document).off('keydown');
+        }
+    });
+    input.on('focusout', function (e) {
+        column.find('.project-status-title').text(input.val())
+        column.find('.project-status-title').removeClass('d-none');
+        input.remove();
+        $(document).off('keydown');
     });
 }
