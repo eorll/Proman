@@ -1,7 +1,7 @@
 import json
 import data_handler
 
-from flask import Flask, render_template, url_for, redirect, flash
+from flask import Flask, render_template, url_for, redirect, flash, request
 from flask_login import current_user, login_user, logout_user, LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
@@ -31,7 +31,6 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    boards = json.loads(get_boards().data)
     login_form = LoginForm()
     register_form = RegistrationForm()
     try:
@@ -55,7 +54,7 @@ def index():
             flash("Login failed. Please check email and password", "danger")
         return redirect(url_for("index"))
 
-    return render_template('index.html', boards=boards, login_form=login_form, register_form=register_form)
+    return render_template('index.html', login_form=login_form, register_form=register_form)
 
 
 @app.route("/logout")
@@ -94,6 +93,21 @@ def get_statuses():
     All the statuses
     """
     return data_handler.get_card_statuses()
+
+
+@app.route("/add-board", methods=['POST'])
+@json_response
+def add_board():
+    """
+    Creates new board.
+    """
+    if request.method == 'POST':
+        data = dict(request.form)
+        data_handler.add_new_board(data['title'])
+    else:
+        return print('Error')
+
+    return print(data)
 
 
 def main():
