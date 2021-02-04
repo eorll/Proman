@@ -96,11 +96,6 @@ def get_statuses():
     return data_handler.get_card_statuses()
 
 
-app.jinja_env.globals.update(get_cards_for_board=get_cards_for_board,
-                             get_statuses=get_statuses,
-                             json=json)
-
-
 def main():
     app.run(debug=True)
 

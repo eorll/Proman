@@ -156,18 +156,11 @@ function onDropInColumn(e) {
 
     let id = e.dataTransfer.getData("text");
     let draggedElement = $(`#${id}`);
-    console.log(draggedElement.parent().children());
     let previousParent = draggedElement.parent();
 
     $(e.currentTarget).find('.card-container').append(draggedElement);
-    $(e.currentTarget).find('.card-container').children().each(function (i) {
-        $(this).attr('data-order', i);
-        $(this).find('.badge').text(i);
-    });
-    previousParent.children().each(function (i) {
-        $(this).attr('data-order', i);
-        $(this).find('.badge').text(i);
-    });
+    _updateCardsIds($(e.currentTarget).find('.card-container').children());
+    _updateCardsIds(previousParent.children());
 }
 
 function onDropBeforeCard(e) {
@@ -179,24 +172,10 @@ function onDropBeforeCard(e) {
     let previousParent = draggedElement.parent();
 
     $(e.currentTarget).before(draggedElement);
-    $(e.currentTarget).parent().children().each(function (i) {
-        $(this).attr('data-order', i);
-        $(this).find('.badge').text(i);
-    });
 
-    previousParent.children().each(function (i) {
-        $(this).attr('data-order', i);
-        $(this).find('.badge').text(i);
-    });
+    _updateCardsIds($(e.currentTarget).parent().children());
+    _updateCardsIds(previousParent.children());
 }
-
-// export function newColumn(e) {
-//     let boardForm = new FormData(document.getElementById('new-board-form'));
-//     dataHandler.createNewBoard(boardForm, function (board) {
-//         dom.loadBoard(board);
-//     });
-//     $(`#addBoard`).modal('hide');
-// }
 
 
 export function initAddCardBtnEvent(column$) {
@@ -211,7 +190,7 @@ export function initAddCardBtnEvent(column$) {
         button.find('h6').after(input);
         $(e.currentTarget).prev().append(button);
         applyCancelAddingCard(button, input);
-        // button.on('dblclick', renameCard);
+
         input.select();
         input.focus();
     });
@@ -252,17 +231,12 @@ function applyCardName(card, input) {
     input.on('keypress', function (e) {
         // If you pressed enter
         if (e.which === 13) {
-            card.children().removeClass('d-none');
-            card.find('h6').text(card.find('input').val());
-            card.find('input').remove();
-            $(document).off('keydown');
+            _applyCardName(card);
         }
     });
     input.on('focusout', function (e) {
-        card.children().removeClass('d-none');
-        card.find('h6').text(card.find('input').val());
-        card.find('input').remove();
-        $(document).off('keydown');
+        // If click to another node
+        _applyCardName(card);
     });
 }
 
@@ -298,4 +272,19 @@ function removeParent(e) {
 function hideColumns(e) {
     let cardBody = $(e.target).parent().siblings(".card-body")
     cardBody.toggle(500)
+}
+
+function _updateCardsIds(cards$) {
+    cards$.each(function (i) {
+        $(this).attr('data-order', i);
+        $(this).find('.badge').text(i);
+    });
+}
+
+function _applyCardName(card$) {
+    card$.children().removeClass('d-none');
+    card$.find('h6').text(card$.find('input').val());
+    card$.find('input').remove();
+    $(document).off('keydown');
+    _updateCardsIds(card$.parent().children());
 }
