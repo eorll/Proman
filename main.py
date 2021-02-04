@@ -1,4 +1,5 @@
 import json
+import data_handler
 
 from flask import Flask, render_template, url_for, redirect, flash
 from flask_login import current_user, login_user, logout_user, LoginManager
@@ -10,24 +11,19 @@ from forms import RegistrationForm, LoginForm
 from util import json_response
 from config import Config
 
-import data_handler
-
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
-# login_manager.init_app(app)
-# login_manager.login_view = "index"
-# login_manager.login_message_category = "info"
 
 with app.app_context():
-    from models import User
+    import models
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return models.User.query.get(int(user_id))
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -35,14 +31,13 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    from models import User
     boards = json.loads(get_boards().data)
     login_form = LoginForm()
     register_form = RegistrationForm()
     try:
         if register_form.validate_on_submit():
             hashed_password = bcrypt.generate_password_hash(register_form.password.data).decode("utf-8")
-            user = User(username=register_form.username.data, email=register_form.email.data, password=hashed_password)
+            user = models.User(username=register_form.username.data, email=register_form.email.data, password=hashed_password)
             db.session.add(user)
             db.session.commit()
             flash(f"Welcome {register_form.username.data}! You can now login.", "success")
@@ -52,7 +47,7 @@ def index():
         return redirect(url_for("index"))
 
     if login_form.validate_on_submit():
-        user = User.query.filter_by(email=login_form.email.data).first()
+        user = models.User.query.filter_by(email=login_form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, login_form.password.data):
             login_user(user, remember=login_form.remember.data)
             flash(f"Welcome back, {user.username}", "success")
