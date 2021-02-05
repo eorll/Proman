@@ -36,13 +36,15 @@ def get_card_statuses():
 #     return persistence.get_boards(force=True)
 
 def get_boards():
-    public_boards = Boards.query.filter_by(owner_id=1).all()
+    public_boards = db.session.query(Boards).filter_by(owner_id=1).all()
     result = []
     for board in public_boards:
         new = {'id': board.id,
                'title': board.title,
                'owner_id': board.owner_id}
         result.append(new)
+    db.session.commit()
+
     return result
 
 
@@ -59,7 +61,7 @@ def get_boards():
 
 
 def get_cards_for_board(board_id):
-    cards = Cards.query.filter_by(board_id=board_id).all()
+    cards = db.session.query(Cards).filter_by(board_id=board_id).all()
     result = []
     for card in cards:
         new = {'id': card.id,
@@ -68,6 +70,7 @@ def get_cards_for_board(board_id):
                'status_id': card.status.title,
                'order': card.order}
         result.append(new)
+    db.session.commit()
 
     return result
 
