@@ -42,8 +42,10 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="add-board-btn">Add</button>
+                <button type="button" class="btn btn-primary" id="add-board-btn">Add public</button>
+                {% if current_user.is_authenticated %}
+                <button type="button" class="btn btn-primary" id="add-priv-board-btn">Add private</button>
+                {% endif %}
             </div>
         </div>
     </div>
