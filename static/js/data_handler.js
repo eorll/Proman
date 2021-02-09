@@ -61,7 +61,7 @@ export let dataHandler = {
     getCardsByBoardId: function (boardId, callback) {
         // the cards are retrieved and then the callback function is called with the cards
         this._api_get(`/get-cards/${boardId}`, (response) => {
-            this._data['cards'] = response;
+            this._data[`cards board ${boardId}`] = response;
             callback(response);
         });
     },
@@ -72,8 +72,15 @@ export let dataHandler = {
         // creates new board, saves it and calls the callback function with its data
         this._api_post('/add-board', boardTitle);
         let boardData = {'title': boardTitle.get('title')};
-        let id = {id : '999'};
+        let newId = 0;
+        dataHandler._data['boards'].forEach( function(board) {
+            if (board.id > newId){
+                newId = board.id + 1;
+            }
+        });
+        let id = {id : newId};
         let board = Object.assign(boardData, id);
+        this._data['boards'].push(board);
         dom.loadBoard(board);
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
