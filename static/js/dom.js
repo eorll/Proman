@@ -54,13 +54,24 @@ export let dom = {
     },
     initEventAddBoardBtn: function () {
         let btn = document.getElementById('add-board-btn');
+        let boardForm = new FormData(document.getElementById('new-board-form'));
         btn.addEventListener('click', event => {
-            let boardForm = new FormData(document.getElementById('new-board-form'));
+            boardForm = new FormData(document.getElementById('new-board-form'));
             dataHandler.createNewBoard(boardForm, function (board) {
                 dom.loadBoard(board);
             });
             $(`#addBoard`).modal('hide');
-        })
+        });
+
+        let privBtn = document.getElementById('add-priv-board-btn');
+         privBtn.addEventListener('click', event => {
+            boardForm = new FormData(document.getElementById('new-board-form'));
+            dataHandler.createNewPrivBoard(boardForm, function (board) {
+                dom.loadBoard(board);
+            });
+            $(`#addBoard`).modal('hide');
+        });
+
     },
     loadBoard: function (board) {
         let newBoard = element.getBoard(board);

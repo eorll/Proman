@@ -2,7 +2,7 @@ import json
 import data_handler
 
 from flask import Flask, render_template, url_for, redirect, flash, request
-from flask_login import current_user, login_user, logout_user, LoginManager
+from flask_login import current_user, login_user, logout_user, LoginManager, login_required
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 from flask_bcrypt import Bcrypt
@@ -36,7 +36,8 @@ def index():
     try:
         if register_form.validate_on_submit():
             hashed_password = bcrypt.generate_password_hash(register_form.password.data).decode("utf-8")
-            user = models.User(username=register_form.username.data, email=register_form.email.data, password=hashed_password)
+            user = models.User(username=register_form.username.data, email=register_form.email.data,
+                               password=hashed_password)
             db.session.add(user)
             db.session.commit()
             flash(f"Welcome {register_form.username.data}! You can now login.", "success")
@@ -53,6 +54,7 @@ def index():
         else:
             flash("Login failed. Please check email and password", "danger")
         return redirect(url_for("index"))
+
 
     return render_template('index.html', login_form=login_form, register_form=register_form)
 
@@ -73,7 +75,10 @@ def get_boards():
     """
     All the boards
     """
-    return data_handler.get_boards()
+    if current_user.is_authenticated:
+        return data_handler.get_boards(public=False, owner_id=current_user.id)
+    else:
+        return data_handler.get_boards(public=True, owner_id=1)
 
 
 @app.route("/get-cards/<int:board_id>")
@@ -101,13 +106,30 @@ def add_board():
     """
     Creates new board.
     """
-    if request.method == 'POST':
-        data = dict(request.form)
-        data_handler.add_new_board(data['title'])
+    data = dict(request.form)
+    if current_user.is_authenticated:
+        data['owner_id'] = current_user.id
     else:
-        return print('Error')
+        data['owner_id'] = 1
 
-    return print(data)
+    data['public'] = True
+
+    return data_handler.add_new_board(data)
+
+
+@app.route("/add-priv-board", methods=['POST'])
+@json_response
+@login_required
+def add_priv_board():
+    """
+    Creates new board.
+    """
+    data = dict(request.form)
+    data['owner_id'] = current_user.id
+    data['public'] = False
+
+    return data_handler.add_new_board(data)
+
 
 
 def main():

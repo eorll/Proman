@@ -14,6 +14,7 @@ class Boards(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    public = db.Column(db.Boolean)
 
     owner = db.relationship('User', foreign_keys=[owner_id])
 
