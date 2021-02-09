@@ -66,7 +66,7 @@ export let dom = {
         let privBtn = document.getElementById('add-priv-board-btn');
          privBtn.addEventListener('click', event => {
             boardForm = new FormData(document.getElementById('new-board-form'));
-            dataHandler.createNewBoard(boardForm, function (board) {
+            dataHandler.createNewPrivBoard(boardForm, function (board) {
                 dom.loadBoard(board);
             });
             $(`#addBoard`).modal('hide');

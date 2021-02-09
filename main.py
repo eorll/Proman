@@ -114,9 +114,22 @@ def add_board():
 
     data['public'] = True
 
-    data_handler.add_new_board(data)
+    return data_handler.add_new_board(data)
 
-    return print(data)
+
+@app.route("/add-priv-board", methods=['POST'])
+@json_response
+@login_required
+def add_priv_board():
+    """
+    Creates new board.
+    """
+    data = dict(request.form)
+    data['owner_id'] = current_user.id
+    data['public'] = False
+
+    return data_handler.add_new_board(data)
+
 
 
 def main():
