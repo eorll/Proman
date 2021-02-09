@@ -25,6 +25,10 @@
 .margin-for-menu {
   margin-right: 80px; }
 
+.bg-image {
+  background-image: url("../../static/icons/bg_2.png");
+  background-size: cover; }
+
 /*!
  * Bootstrap v5.0.0-beta1 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors

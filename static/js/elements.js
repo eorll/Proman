@@ -4,11 +4,12 @@ export let element = {
     getBoard: function (board) {
         let newBoard = $('<div>', {
             class: 'card bg-dark border-success my-3 project-boards position-relative',
-            id: `board-${board.id}`
+            id: `board-${board.id}`,
+            style: 'opacity: 0.9;'
         });
         newBoard.html(`
             <button class="btn btn-sm btn-secondary p-1 d-flex justify-content-center align-items-center
-             delete-parent mt-1 position-absolute top-0 start-0" style="width: 20px; height: 20px">&times;</button>
+             delete-parent mt-1 position-absolute top-0 start-0" style="width: 20px; height: 20px;">&times;</button>
             <div class="card-header">
                 <h4 class="d-inline me-auto project-board-title">${board.title}</h4>
                 <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split float-end d-inline hide-col"

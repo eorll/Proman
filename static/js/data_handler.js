@@ -29,7 +29,6 @@ export let dataHandler = {
             .then(result => {
                 console.log('Success:', result.status);
             })
-            // .then(result => callback(result))
             .catch((error) => {
                 console.error('Error:', error);
             });

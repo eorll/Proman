@@ -1,4 +1,3 @@
-import json
 import data_handler
 
 from flask import Flask, render_template, url_for, redirect, flash, request
