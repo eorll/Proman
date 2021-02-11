@@ -61,3 +61,8 @@ def add_new_board(title):
     new_board = Boards(title=title, owner_id=1)
     db.session.add(new_board)
     db.session.commit()
+
+
+def get_last_board_id():
+    result = db.session.query(Boards).all()
+    return result[-1].id

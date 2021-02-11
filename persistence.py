@@ -63,3 +63,6 @@ def append_to_csv(file_name, record):
         csv_writer = csv.writer(csv_file, delimiter=',', quotechar='"')
         csv_writer.writerow(record)
 
+
+def get_last_board_id():
+    return _get_data('boards')

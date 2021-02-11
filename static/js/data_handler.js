@@ -70,10 +70,15 @@ export let dataHandler = {
     createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
         this._api_post('/add-board', boardTitle);
-        let boardData = {'title': boardTitle.get('title')};
-        let id = {id : '999'};
-        let board = Object.assign(boardData, id);
-        dom.loadBoard(board);
+
+        let nextId;
+
+        this._api_get('/get-last-board-id', (response) => {
+            nextId = this._data.boards[this._data.boards.length - 1]["id"] + 1;
+            let boardData = {'title': boardTitle.get('title'), 'id': nextId};
+            dom.loadBoard(boardData);
+            callback(response);
+        });
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data

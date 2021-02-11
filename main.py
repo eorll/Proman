@@ -109,6 +109,15 @@ def add_board():
     return print(data)
 
 
+@app.route("/get-last-board-id", methods=['GET'])
+@json_response
+def get_last_board_id():
+    """
+    Get last board id.
+    """
+    return data_handler.get_last_board_id()
+
+
 def main():
     app.run(debug=True)
 

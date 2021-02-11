@@ -1,9 +1,11 @@
 import {element} from "./elements.js";
 import * as domObj from "./dom.js";
+import {dataHandler} from "./data_handler.js";
 
 export function init() {
     initDraggingBoard();
     manualSync();
+    initEventAddBoardBtn();
 }
 
 export function initEditingColumnName(obj$) {
@@ -298,3 +300,14 @@ function manualSync() {
          domObj.dom.reloadBoards();
     });
 }
+
+export function initEventAddBoardBtn() {
+        let btn = document.getElementById('add-board-btn');
+        btn.addEventListener('click', event => {
+            let boardForm = new FormData(document.getElementById('new-board-form'));
+            dataHandler.createNewBoard(boardForm, function (board) {
+                domObj.dom.loadBoard(board);
+            });
+            $(`#addBoard`).modal('hide');
+        })
+    }
