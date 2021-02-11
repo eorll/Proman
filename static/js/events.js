@@ -305,9 +305,7 @@ export function initEventAddBoardBtn() {
         let btn = document.getElementById('add-board-btn');
         btn.addEventListener('click', event => {
             let boardForm = new FormData(document.getElementById('new-board-form'));
-            dataHandler.createNewBoard(boardForm, function (board) {
-                domObj.dom.loadBoard(board);
-            });
+            dataHandler.createNewBoard(boardForm);
             $(`#addBoard`).modal('hide');
         })
     }
