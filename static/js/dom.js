@@ -51,23 +51,6 @@ export let dom = {
             columnBox.append(newColumn);
         }
     },
-    initEventAddBoardBtn: function () {
-        let btn = document.getElementById('add-board-btn');
-        let boardForm = new FormData(document.getElementById('new-board-form'));
-        btn.addEventListener('click', event => {
-            boardForm = new FormData(document.getElementById('new-board-form'));
-            dataHandler.createNewBoard(boardForm);
-            $(`#addBoard`).modal('hide');
-        });
-
-        let privBtn = document.getElementById('add-priv-board-btn');
-         privBtn.addEventListener('click', event => {
-            boardForm = new FormData(document.getElementById('new-board-form'));
-            dataHandler.createNewPrivBoard(boardForm);
-            $(`#addBoard`).modal('hide');
-        });
-
-    },
     loadBoard: function (board) {
         let newBoard = element.getBoard(board);
         newBoard.insertBefore($('#boards-container').children()[0]);

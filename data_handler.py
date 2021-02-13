@@ -69,6 +69,8 @@ def add_new_board(board):
     new_board = Boards(title=board['title'], owner_id=board['owner_id'], public=board['public'])
     db.session.add(new_board)
     db.session.commit()
+    db.session.refresh(new_board)
+    return new_board.id
 
 
 def get_last_board_id():

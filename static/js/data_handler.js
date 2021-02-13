@@ -26,12 +26,9 @@ export let dataHandler = {
             credentials: 'same-origin',
             body: data
         })
-            .then(result => {
-                console.log('Success:', result.status);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+            .then(response => response.json())  // convert to json
+            .then(json_response => callback(json_response))    //print data to console
+            .catch(err => console.log('Request Failed', err)); // Catch errors
     },
     init: function () {
     },
@@ -69,27 +66,23 @@ export let dataHandler = {
     },
     createNewBoard: function (boardTitle) {
         // creates new board, saves it and calls the callback function with its data
-        this._api_post('/add-board', boardTitle);
-        dataHandler.createBoardObject(boardTitle)
+        this._api_post('/add-board', boardTitle, (boardId) => {
+            this.createBoardObject(boardTitle, boardId);
+        });
     },
-    createNewPrivBoard: function (boardTitle, callback) {
+    createNewPrivBoard: function (boardTitle) {
         // creates new board, saves it and calls the callback function with its data
-        this._api_post('/add-priv-board', boardTitle);
-        dataHandler.createBoardObject(boardTitle)
+        this._api_post('/add-priv-board', boardTitle, (boardId) => {
+            this.createBoardObject(boardTitle, boardId);
+        });
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
 
     },
-    createBoardObject: function (boardTitle) {
+    createBoardObject: function (boardTitle, boardId) {
         let boardData = {'title': boardTitle.get('title')};
-        let newId = 0;
-        dataHandler._data['boards'].forEach(function (board) {
-            if (board.id > newId) {
-                newId = board.id + 1;
-            }
-        });
-        let id = {id: newId};
+        let id = {id: boardId}
         let board = Object.assign(boardData, id);
         this._data['boards'].push(board);
         dom.loadBoard(board);
