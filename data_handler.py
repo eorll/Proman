@@ -41,7 +41,8 @@ def get_boards(public, owner_id):
     for board in boards:
         new = {'id': board.id,
                'title': board.title,
-               'owner_id': board.owner_id}
+               'owner_id': board.owner_id,
+               'public': board.public}
         result.append(new)
     db.session.commit()
 

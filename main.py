@@ -131,7 +131,6 @@ def add_priv_board():
     return data_handler.add_new_board(data)
 
 
-
 def main():
     app.run(debug=True)
 

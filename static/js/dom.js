@@ -57,18 +57,14 @@ export let dom = {
         let boardForm = new FormData(document.getElementById('new-board-form'));
         btn.addEventListener('click', event => {
             boardForm = new FormData(document.getElementById('new-board-form'));
-            dataHandler.createNewBoard(boardForm, function (board) {
-                dom.loadBoard(board);
-            });
+            dataHandler.createNewBoard(boardForm);
             $(`#addBoard`).modal('hide');
         });
 
         let privBtn = document.getElementById('add-priv-board-btn');
          privBtn.addEventListener('click', event => {
             boardForm = new FormData(document.getElementById('new-board-form'));
-            dataHandler.createNewPrivBoard(boardForm, function (board) {
-                dom.loadBoard(board);
-            });
+            dataHandler.createNewPrivBoard(boardForm);
             $(`#addBoard`).modal('hide');
         });
 
