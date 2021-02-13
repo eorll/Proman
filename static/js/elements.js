@@ -4,11 +4,12 @@ export let element = {
     getBoard: function (board) {
         let newBoard = $('<div>', {
             class: 'card bg-dark border-success my-3 project-boards position-relative',
-            id: `board-${board.id}`
+            id: `board-${board.id}`,
+            style: 'opacity: 0.9;'
         });
         newBoard.html(`
-            <button class="btn btn-sm btn-danger p-1 d-flex justify-content-center align-items-center
-             delete-parent mt-1 position-absolute top-0 start-0" style="width: 20px; height: 20px">&times;</button>
+            <button class="btn btn-sm btn-secondary p-1 d-flex justify-content-center align-items-center
+             delete-parent mt-1 position-absolute top-0 start-0" style="width: 20px; height: 20px;">&times;</button>
             <div class="card-header">
                 <h4 class="d-inline me-auto project-board-title">${board.title}</h4>
                 <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split float-end d-inline hide-col"
@@ -44,7 +45,7 @@ export let element = {
             style:  "width: 20%; min-width: 12rem;",
         });
         newColumn.html(`
-             <button class="btn btn-sm btn-danger p-1 d-flex justify-content-center align-items-center
+             <button class="btn btn-sm btn-secondary p-1 d-flex justify-content-center align-items-center
               delete-parent mt-1 position-absolute top-0 start-0" style="width: 20px; height: 20px">&times;</button>
             <div class="card-body">
                 <h5 type="text" class="project-status-title column_name btn-dark d-block w-100 my-0 text-center"
@@ -72,7 +73,7 @@ export let element = {
         newCard.attr('id', `card${card.id}`);
         newCard.attr('data-order', `${card.order}`);
         newCard.html(`
-            <span class="btn btn-sm btn-danger p-1 d-inline-flex justify-content-center
+            <span class="btn btn-sm btn-secondary p-1 d-inline-flex justify-content-center
              position-absolute align-items-center delete-parent top-0 start-0"
              style="width: 15px; height: 15px">&times;</span>
             <h6 class="d-inline me-auto">${card.title}</h6>

@@ -29,7 +29,6 @@ export let dataHandler = {
             .then(result => {
                 console.log('Success:', result.status);
             })
-            // .then(result => callback(result))
             .catch((error) => {
                 console.error('Error:', error);
             });
@@ -68,7 +67,7 @@ export let dataHandler = {
     getCard: function (cardId, callback) {
         // the card is retrieved and then the callback function is called with the card
     },
-    createNewBoard: function (boardTitle, callback) {
+    createNewBoard: function (boardTitle) {
         // creates new board, saves it and calls the callback function with its data
         this._api_post('/add-board', boardTitle);
         dataHandler.createBoardObject(boardTitle)

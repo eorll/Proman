@@ -1,6 +1,12 @@
-import {dataHandler} from "./data_handler.js";
-import {dom} from "/static/js/dom.js";
 import {element} from "./elements.js";
+import * as domObj from "./dom.js";
+import {dataHandler} from "./data_handler.js";
+
+export function init() {
+    initDraggingBoard();
+    manualSync();
+    initEventAddBoardBtn();
+}
 
 export function initEditingColumnName(obj$) {
     obj$.find('.project-status-title').on('dblclick', onDblClick);
@@ -159,8 +165,8 @@ function onDropInColumn(e) {
     let previousParent = draggedElement.parent();
 
     $(e.currentTarget).find('.card-container').append(draggedElement);
-    _updateCardsIds($(e.currentTarget).find('.card-container').children());
-    _updateCardsIds(previousParent.children());
+    _updateCardsorders($(e.currentTarget).find('.card-container').children());
+    _updateCardsorders(previousParent.children());
 }
 
 function onDropBeforeCard(e) {
@@ -173,8 +179,8 @@ function onDropBeforeCard(e) {
 
     $(e.currentTarget).before(draggedElement);
 
-    _updateCardsIds($(e.currentTarget).parent().children());
-    _updateCardsIds(previousParent.children());
+    _updateCardsorders($(e.currentTarget).parent().children());
+    _updateCardsorders(previousParent.children());
 }
 
 
@@ -274,7 +280,7 @@ function hideColumns(e) {
     cardBody.toggle(500)
 }
 
-function _updateCardsIds(cards$) {
+function _updateCardsorders(cards$) {
     cards$.each(function (i) {
         $(this).attr('data-order', i);
         $(this).find('.badge').text(i);
@@ -286,5 +292,20 @@ function _applyCardName(card$) {
     card$.find('h6').text(card$.find('input').val());
     card$.find('input').remove();
     $(document).off('keydown');
-    _updateCardsIds(card$.parent().children());
+    _updateCardsorders(card$.parent().children());
 }
+
+function manualSync() {
+    $('#manual-sync').on('click', function () {
+         domObj.dom.reloadBoards();
+    });
+}
+
+export function initEventAddBoardBtn() {
+        let btn = document.getElementById('add-board-btn');
+        btn.addEventListener('click', event => {
+            let boardForm = new FormData(document.getElementById('new-board-form'));
+            dataHandler.createNewBoard(boardForm);
+            $(`#addBoard`).modal('hide');
+        })
+    }

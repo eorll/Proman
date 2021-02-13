@@ -7,8 +7,7 @@ export let dom = {
     init: function () {
         // This function should run once, when the page is loaded.
         this.loadBoards();
-        this.initEventAddBoardBtn();
-        events.initDraggingBoard();
+        events.init();
     },
 
     showBoards: function (boards) {
@@ -72,6 +71,12 @@ export let dom = {
     loadBoard: function (board) {
         let newBoard = element.getBoard(board);
         newBoard.insertBefore($('#boards-container').children()[0]);
-
     },
+    reloadBoards: function () {
+        this.removeBoards();
+        this.loadBoards();
+    },
+    removeBoards: function () {
+        $('#boards-container').children().remove();
+    }
 };

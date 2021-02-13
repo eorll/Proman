@@ -51,6 +51,12 @@ $theme-colors: (
   margin-right: 80px;
 }
 
+.bg-image {
+  //background-color: ;
+  background-image: url("../../static/icons/bg_2.png");
+  background-size:cover;
+}
+
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "../node_modules/bootstrap/scss/mixins";
 @import "../node_modules/bootstrap/scss/root";
