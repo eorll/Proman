@@ -297,15 +297,24 @@ function _applyCardName(card$) {
 
 function manualSync() {
     $('#manual-sync').on('click', function () {
-         domObj.dom.reloadBoards();
+        domObj.dom.reloadBoards();
     });
 }
 
 export function initEventAddBoardBtn() {
-        let btn = document.getElementById('add-board-btn');
-        btn.addEventListener('click', event => {
-            let boardForm = new FormData(document.getElementById('new-board-form'));
-            dataHandler.createNewBoard(boardForm);
-            $(`#addBoard`).modal('hide');
-        })
-    }
+    let btn = document.getElementById('add-board-btn');
+    let boardForm = new FormData(document.getElementById('new-board-form'));
+    btn.addEventListener('click', event => {
+        boardForm = new FormData(document.getElementById('new-board-form'));
+        dataHandler.createNewBoard(boardForm);
+        $(`#addBoard`).modal('hide');
+    });
+
+    let privBtn = document.getElementById('add-priv-board-btn');
+    privBtn.addEventListener('click', event => {
+        boardForm = new FormData(document.getElementById('new-board-form'));
+        dataHandler.createNewPrivBoard(boardForm);
+        $(`#addBoard`).modal('hide');
+    });
+}
+

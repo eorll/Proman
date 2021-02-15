@@ -4,6 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
 from models import Boards, Cards
+from sqlalchemy import or_
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -29,13 +30,20 @@ def get_card_statuses():
     return [status['title'] for status in statuses]
 
 
-def get_boards():
-    public_boards = db.session.query(Boards).filter_by(owner_id=1).all()
+def get_boards(public, owner_id):
+
+    if public:
+        boards = db.session.query(Boards).filter(or_(Boards.public==True, Boards.public==None))
+
+    else:
+        boards = db.session.query(Boards).filter(or_(Boards.public==True, Boards.public==None, Boards.owner_id==owner_id))
+
     result = []
-    for board in public_boards:
+    for board in boards:
         new = {'id': board.id,
                'title': board.title,
-               'owner_id': board.owner_id}
+               'owner_id': board.owner_id,
+               'public': board.public}
         result.append(new)
     db.session.commit()
 
@@ -57,10 +65,12 @@ def get_cards_for_board(board_id):
     return result
 
 
-def add_new_board(title):
-    new_board = Boards(title=title, owner_id=1)
+def add_new_board(board):
+    new_board = Boards(title=board['title'], owner_id=board['owner_id'], public=board['public'])
     db.session.add(new_board)
     db.session.commit()
+    db.session.refresh(new_board)
+    return new_board.id
 
 
 def get_last_board_id():
