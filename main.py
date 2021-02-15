@@ -116,6 +116,18 @@ def add_board():
     return data_handler.add_new_board(data)
 
 
+@app.route("/add-new-card/<card_title>/<board_id>/<status_id>/<order>", methods=['POST'])
+@json_response
+def add_new_card(card_title, board_id, status_id, order):
+    card = {
+        'title': card_title,
+        'board_id': board_id,
+        'status_id': status_id,
+        'order': order
+    }
+    return data_handler.add_new_card(card);
+
+
 @app.route("/add-priv-board", methods=['POST'])
 @json_response
 @login_required

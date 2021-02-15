@@ -2,6 +2,9 @@ import {element} from "./elements.js";
 import * as domObj from "./dom.js";
 import {dataHandler} from "./data_handler.js";
 
+var ENTER_KEY = 13;
+var ESC_KEY = 27;
+
 export function init() {
     initDraggingBoard();
     manualSync();
@@ -165,8 +168,8 @@ function onDropInColumn(e) {
     let previousParent = draggedElement.parent();
 
     $(e.currentTarget).find('.card-container').append(draggedElement);
-    _updateCardsorders($(e.currentTarget).find('.card-container').children());
-    _updateCardsorders(previousParent.children());
+    _updateCardsOrders($(e.currentTarget).find('.card-container').children());
+    _updateCardsOrders(previousParent.children());
 }
 
 function onDropBeforeCard(e) {
@@ -179,8 +182,8 @@ function onDropBeforeCard(e) {
 
     $(e.currentTarget).before(draggedElement);
 
-    _updateCardsorders($(e.currentTarget).parent().children());
-    _updateCardsorders(previousParent.children());
+    _updateCardsOrders($(e.currentTarget).parent().children());
+    _updateCardsOrders(previousParent.children());
 }
 
 
@@ -191,7 +194,8 @@ export function initAddCardBtnEvent(column$) {
         let button = element.getCard(card);
         button.children().addClass('d-none');
 
-        let input = $('<input type="text" class="input d-inline-block w-100 border-light text-center" placeholder="New task" value="New task">');
+        let input = $('<input type="text" class="input d-inline-block w-100 border-light text-center" ' +
+            'placeholder="New task" value="New task">');
 
         button.find('h6').after(input);
         $(e.currentTarget).prev().append(button);
@@ -215,7 +219,7 @@ export function renameCard(e) {
 function applyCancelRenaming(card, input) {
     applyCardName(card, input)
     $(document).on('keydown', function (e) {
-        if (e.which === 27) {
+        if (e.which === ESC_KEY) {
             card.find('input').remove();
             card.children().removeClass('d-none');
             card.find('h1').text('New task');
@@ -224,10 +228,27 @@ function applyCancelRenaming(card, input) {
 }
 
 function applyCancelAddingCard(card, input) {
-    applyCardName(card, input)
+    input.on('keypress', function (e) {
+        if (e.which === ENTER_KEY) {
+            _applyCardName(card);
+            let card_data = {
+                'title': card.find('h6').text(),
+                'board_id': parseInt(card.parents('.project-boards').attr('id').split('-')[1]),
+                'status_id': parseInt(card.parents('.project-column').attr('id').split('-')[1]),
+                'order': parseInt(card.attr('data-order'))
+            }
+            dataHandler.createNewCard(  card_data["title"],
+                                        card_data["board_id"],
+                                        card_data['status_id'],
+                                        card_data['order']);
+        }
+    });
+    input.on('focusout', function (e) {
+        // If click to another node
+        _applyCardName(card);
+    });
     $(document).on('keydown', function (e) {
-        // If you pressed esc
-        if (e.which === 27) {
+        if (e.which === ESC_KEY) {
             card.find('input').parent().remove();
         }
     });
@@ -235,8 +256,7 @@ function applyCancelAddingCard(card, input) {
 
 function applyCardName(card, input) {
     input.on('keypress', function (e) {
-        // If you pressed enter
-        if (e.which === 13) {
+        if (e.which === ENTER_KEY) {
             _applyCardName(card);
         }
     });
@@ -247,18 +267,19 @@ function applyCardName(card, input) {
 }
 
 function applyCancelAddingCol(input, column) {
+    console.log(input, column);
     $(document).on('keydown', function (e) {
-        if (e.which === 27) {
+        if (e.which === ESC_KEY) {
             column.remove();
         }
     });
     input.on('keypress', function (e) {
-        // If you pressed enter
-        if (e.which === 13) {
+        if (e.which === ENTER_KEY) {
             console.log(column.find('.project-status-title'));
             column.find('.project-status-title').text(input.val())
             column.find('.project-status-title').removeClass('d-none');
             input.remove();
+            dataHandler.createNewCard(card_data);
             $(document).off('keydown');
         }
     });
@@ -280,7 +301,7 @@ function hideColumns(e) {
     cardBody.toggle(500)
 }
 
-function _updateCardsorders(cards$) {
+function _updateCardsOrders(cards$) {
     cards$.each(function (i) {
         $(this).attr('data-order', i);
         $(this).find('.badge').text(i);
@@ -292,7 +313,7 @@ function _applyCardName(card$) {
     card$.find('h6').text(card$.find('input').val());
     card$.find('input').remove();
     $(document).off('keydown');
-    _updateCardsorders(card$.parent().children());
+    _updateCardsOrders(card$.parent().children());
 }
 
 function manualSync() {

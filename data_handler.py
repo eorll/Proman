@@ -57,7 +57,8 @@ def get_cards_for_board(board_id):
         new = {'id': card.id,
                'board_id': card.board_id,
                'title': card.title,
-               'status_id': card.status.title,
+               'status_title': card.status.title,
+               'status_id': card.status.id,
                'order': card.order}
         result.append(new)
     db.session.commit()
@@ -76,3 +77,14 @@ def add_new_board(board):
 def get_last_board_id():
     result = db.session.query(Boards).all()
     return result[-1].id
+
+
+def add_new_card(card):
+    new_card = Cards(title=card['title'],
+                     status_id=card['status_id'],
+                     board_id=card['board_id'],
+                     order=card['order'])
+    db.session.add(new_card)
+    db.session.commit()
+    db.session.refresh(new_card)
+    return new_card.id

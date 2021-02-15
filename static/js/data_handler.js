@@ -28,7 +28,7 @@ export let dataHandler = {
         })
             .then(response => response.json())  // convert to json
             .then(json_response => callback(json_response))    //print data to console
-            .catch(err => console.log('Request Failed', err)); // Catch errors
+            .catch(err => console.error('Request Failed', err)); // Catch errors
     },
     init: function () {
     },
@@ -76,9 +76,11 @@ export let dataHandler = {
             this.createBoardObject(boardTitle, boardId);
         });
     },
-    createNewCard: function (cardTitle, boardId, statusId, callback) {
+    createNewCard: function (cardTitle, boardId, statusId, order, callback) {
         // creates new card, saves it and calls the callback function with its data
+        this._api_post(`/add-new-card/${cardTitle}/${boardId}/${statusId}/${order}`, [], (response) => {
 
+        });
     },
     createBoardObject: function (boardTitle, boardId) {
         let boardData = {'title': boardTitle.get('title')};
@@ -86,7 +88,7 @@ export let dataHandler = {
         let board = Object.assign(boardData, id);
         this._data['boards'].push(board);
         dom.loadBoard(board);
-    }
+    },
 };
 
 

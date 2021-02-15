@@ -38,20 +38,21 @@ export let element = {
         return newBoard
     },
 
-    getColumn: function (status, boardId) {
+    getColumn: function (status, boardId, id) {
         let newColumn = $('<div>', {
             class:  'card m-3 d-inline-block flex-nowrap bg-dark ' +
                     'text-light border-light project-column column-body position-relative',
             style:  "width: 20%; min-width: 12rem;",
         });
+        newColumn.attr('id', 'status-' + status['id'])
         newColumn.html(`
              <button class="btn btn-sm btn-secondary p-1 d-flex justify-content-center align-items-center
               delete-parent mt-1 position-absolute top-0 start-0" style="width: 20px; height: 20px">&times;</button>
             <div class="card-body">
                 <h5 type="text" class="project-status-title column_name btn-dark d-block w-100 my-0 text-center"
-                    draggable="false">${status}</h5>
+                    draggable="false">${status['title']}</h5>
                 <hr>
-                <div class="card-container" id="card-box-${status.split(" ").join("")}-${boardId}"></div> 
+                <div class="card-container" id="card-box-${status['title'].split(" ").join("")}-${boardId}"></div> 
                 <button type="button" class="btn btn-brown border-success project-add-card">   
                 <img src="/static/icons/plus.svg" style="filter: invert(); transform: scale(1.4);"> 
                 </button>
@@ -70,7 +71,7 @@ export let element = {
         newCard.addClass('btn btn-primary d-block w-100 my-3 project-card board-card position-relative');
         newCard.attr('type', 'button');
         newCard.attr('draggable', 'true');
-        newCard.attr('id', `card${card.id}`);
+        newCard.attr('id', `card-${card.id}`);
         newCard.attr('data-order', `${card.order}`);
         newCard.html(`
             <span class="btn btn-sm btn-secondary p-1 d-inline-flex justify-content-center

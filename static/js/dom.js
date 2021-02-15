@@ -33,17 +33,17 @@ export let dom = {
     },
     showCards: function (cards, boardId) {
         for (let card of cards) {
-            let cardBox = $(`#card-box-${card.status_id.split(" ").join("")}-${boardId}`);
+            let cardBox = $(`#card-box-${card.status_title.split(" ").join("")}-${boardId}`);
             let newCard = element.getCard(card);
             cardBox.append(newCard);
         }
     },
     showStatuses: function (cards, boardId) {
         let cardsStatuses = [];
-        let columnBox = $(`#board-${boardId} .card-body .container-fluid .project-col-container`);
+        let columnBox = $(`#board-${boardId}`).find(`.project-col-container`);
         for (let card of cards) {
             if (!(cardsStatuses.includes(card.status_id))) {
-                cardsStatuses.push(card.status_id);
+                cardsStatuses.push({'id': card.status_id, 'title': card.status_title});
             }
         }
         for (let status of cardsStatuses) {
