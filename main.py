@@ -125,7 +125,7 @@ def add_new_card(card_title, board_id, status_id, order):
         'status_id': status_id,
         'order': order
     }
-    return data_handler.add_new_card(card);
+    return data_handler.add_new_card(card)
 
 
 @app.route("/add-priv-board", methods=['POST'])
@@ -149,6 +149,11 @@ def get_last_board_id():
     Get last board id.
     """
     return data_handler.get_last_board_id()
+
+
+@app.route('/update-card-order/<cardId>/<cardOrder>', methods=['POST'])
+def update_card_order(cardId, cardOrder):
+    return data_handler.update_card_order(cardId, cardOrder)
 
 
 def main():

@@ -67,28 +67,33 @@ export let dataHandler = {
     createNewBoard: function (boardTitle) {
         // creates new board, saves it and calls the callback function with its data
         this._api_post('/add-board', boardTitle, (boardId) => {
-            this.createBoardObject(boardTitle, boardId);
+            this._createBoardNode(boardTitle, boardId);
         });
     },
     createNewPrivBoard: function (boardTitle) {
         // creates new board, saves it and calls the callback function with its data
         this._api_post('/add-priv-board', boardTitle, (boardId) => {
-            this.createBoardObject(boardTitle, boardId);
+            this._createBoardNode(boardTitle, boardId);
         });
     },
     createNewCard: function (cardTitle, boardId, statusId, order, callback) {
         // creates new card, saves it and calls the callback function with its data
-        this._api_post(`/add-new-card/${cardTitle}/${boardId}/${statusId}/${order}`, [], (response) => {
-
+        this._api_post(`/add-new-card/${cardTitle}/${boardId}/${statusId}/${order}`, [], (card_data) => {
+            this.updateCardOrder(card_data['id'], order);
         });
     },
-    createBoardObject: function (boardTitle, boardId) {
+    _createBoardNode: function (boardTitle, boardId) {
         let boardData = {'title': boardTitle.get('title')};
         let id = {id: boardId}
         let board = Object.assign(boardData, id);
         this._data['boards'].push(board);
         dom.loadBoard(board);
     },
+    updateCardOrder: function (cardId, cardOrder) {
+        this._api_post(`/update-card-order/${cardId}/${cardOrder}`, [], (response) => {
+
+        });
+    }
 };
 
 

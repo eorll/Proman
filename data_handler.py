@@ -87,4 +87,17 @@ def add_new_card(card):
     db.session.add(new_card)
     db.session.commit()
     db.session.refresh(new_card)
-    return new_card.id
+    return {
+        'id': new_card.id,
+        'title': card['title'],
+        'board_id': card['board_id'],
+        'status_id': card['status_id'],
+        'order': card['order']
+    }
+
+
+def update_card_order(cardId, cardOrder):
+    card = Cards.query.filter_by(id=cardId).first()
+    card.order = cardOrder
+    db.session.commit()
+    return cardId
